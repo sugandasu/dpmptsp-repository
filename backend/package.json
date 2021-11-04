@@ -15,7 +15,8 @@
   "author": "Arif Suganda",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "typeorm": "^0.2.38"
   },
   "devDependencies": {
     "@types/express": "^4.17.13",
