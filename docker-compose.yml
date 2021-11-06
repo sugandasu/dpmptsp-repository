@@ -1,7 +1,7 @@
 version: "3"
 services:
-  mysql:
-    image: mysql
+  db:
+    image: mariadb
     restart: always
     environment:
       MYSQL_DATABASE: "${DATABASE_NAME}"
@@ -9,7 +9,7 @@ services:
       MYSQL_USER: "${DATABASE_USER}"
       MYSQL_PASSWORD: "${DATABASE_PASSWORD}"
     volumes:
-      - .mysql:/var/lib/mysql
+      - .mariadb:/var/lib/mysql
     ports:
       - "${DATABASE_PORT}:3306"
     networks:
@@ -31,7 +31,7 @@ services:
     networks:
       - backend
     depends_on:
-      - mysql
+      - db
     volumes:
       - ./backend:/usr/src/app
 networks:
