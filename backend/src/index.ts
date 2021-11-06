@@ -1,6 +1,6 @@
 import "dotenv-safe/config";
 import express from "express";
-import izinRoutes from "./routes/izin";
+import izinRoutes from "./routes/izinRoutes";
 
 const main = async () => {
   const app = express();
