@@ -26,10 +26,10 @@ export class User extends BaseEntity {
   @Column()
   password!: string;
 
-  @Column({ type: "enum", enum: UserRoles })
+  @Column({ type: "enum", enum: UserRoles, default: UserRoles.PEGAWAI })
   role!: UserRoles;
 
-  @Column({ type: "varchar", unique: true })
+  @Column({ type: "varchar", unique: true, nullable: true })
   token!: string;
 
   @CreateDateColumn()
