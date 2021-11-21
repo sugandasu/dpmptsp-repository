@@ -1,9 +1,8 @@
 import joi from "joi";
 
-export const formatJoiError = (result: joi.ValidationResult) => {
+export const formatJoiError = (result: joi.ValidationError) => {
   const errorFormatted: Record<string, string> = {};
-  result.error?.details.forEach(({ context, message }) => {
-    console.log(message);
+  result.details.forEach(({ context, message }) => {
     if (context?.key) {
       errorFormatted[context.key] = message;
     }
