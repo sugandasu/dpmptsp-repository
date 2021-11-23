@@ -1,3 +1,4 @@
+import { nullTransformer } from "../utils/nullTransformer";
 import {
   BaseEntity,
   Column,
@@ -20,8 +21,13 @@ export class User extends BaseEntity {
   @Column({ type: "varchar", unique: true })
   username!: string;
 
-  @Column({ type: "varchar", unique: true, nullable: true })
-  email!: string;
+  @Column({
+    type: "varchar",
+    unique: true,
+    nullable: true,
+    transformer: nullTransformer,
+  })
+  email?: string | null;
 
   @Column()
   password!: string;
@@ -29,8 +35,13 @@ export class User extends BaseEntity {
   @Column({ type: "enum", enum: UserRoles, default: UserRoles.PEGAWAI })
   role!: UserRoles;
 
-  @Column({ type: "varchar", unique: true, nullable: true })
-  token!: string;
+  @Column({
+    type: "varchar",
+    unique: true,
+    nullable: true,
+    transformer: nullTransformer,
+  })
+  token?: string | null;
 
   @CreateDateColumn()
   createdAt: Date;
