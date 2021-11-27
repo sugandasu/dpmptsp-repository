@@ -1,5 +1,4 @@
 import {
-  Button,
   FormControl,
   FormErrorMessage,
   FormLabel,
@@ -12,8 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { useField } from "formik";
 import { InputHTMLAttributes } from "react";
-import { IconType } from "react-icons";
-import { FaEye, FaLock } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaLock } from "react-icons/fa";
 
 type FieldPasswordProps = InputHTMLAttributes<HTMLInputElement> & {
   name: string;
@@ -43,16 +41,17 @@ export const FieldPassword: React.FC<FieldPasswordProps> = ({
           borderWidth={2}
           type={showPassword ? "password" : "text"}
         />
-        <InputRightElement
-          color={showPassword ? "gray.500" : "black"}
-          children={
-            <IconButton
-              aria-label="show password"
-              onClick={setShowPassword.toggle}
-              icon={<FaEye />}
-            />
-          }
-        />
+        <InputRightElement>
+          <IconButton
+            bgColor="white"
+            borderLeft={0}
+            borderWidth={2}
+            borderLeftRadius={0}
+            aria-label="show password"
+            onClick={setShowPassword.toggle}
+            icon={showPassword ? <FaEye /> : <FaEyeSlash />}
+          />
+        </InputRightElement>
       </InputGroup>
       {touched && error ? <FormErrorMessage>{error}</FormErrorMessage> : null}
     </FormControl>
