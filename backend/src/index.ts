@@ -6,6 +6,7 @@ import { User } from "./entities/User";
 import { izinRoutes } from "./routes/izinRoutes";
 import path from "path";
 import { authRoutes } from "./routes/authRoutes";
+import cors from "cors";
 
 const main = async () => {
   const conection = await createConnection({
@@ -23,6 +24,8 @@ const main = async () => {
 
   const app = express();
   app.use(express.json());
+  app.use(cors({ origin: process.env.DOMAIN_NAME, credentials: true }));
+
   app.get("/", (_, res) => {
     res.send("Hello world!");
   });
