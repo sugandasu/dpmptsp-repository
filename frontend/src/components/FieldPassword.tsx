@@ -23,7 +23,7 @@ export const FieldPassword: React.FC<FieldPasswordProps> = ({
   size: _,
   ...props
 }) => {
-  const [showPassword, setShowPassword] = useBoolean();
+  const [showPassword, setShowPassword] = useBoolean(false);
   const [field, { error, touched }] = useField(props);
 
   return (
@@ -39,7 +39,7 @@ export const FieldPassword: React.FC<FieldPasswordProps> = ({
           {...props}
           id={field.name}
           borderWidth={2}
-          type={showPassword ? "password" : "text"}
+          type={showPassword ? "text" : "password"}
         />
         <InputRightElement>
           <IconButton
