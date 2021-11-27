@@ -58,7 +58,11 @@ export const registerSchema = joi.object({
         );
       }
     })
-    .messages({ "any.email": "Format email tidak diterima" }),
+    .required()
+    .messages({
+      "string.email": "Format email tidak diterima",
+      "any.required": "Email dibutuhkan",
+    }),
   password: joi
     .string()
     .required()
