@@ -2,7 +2,7 @@ import joi from "joi";
 
 export const loginSchema = joi.object({
   username: joi.string().alphanum().required().messages({
-    "any.required": "Username telah terdaftar",
+    "any.required": "Username dibutuhkan",
   }),
   password: joi
     .string()
