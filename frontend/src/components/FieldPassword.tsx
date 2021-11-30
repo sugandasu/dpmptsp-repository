@@ -27,10 +27,9 @@ export const FieldPassword: React.FC<FieldPasswordProps> = ({
   const [field, { error, touched }] = useField(props);
 
   return (
-    <FormControl isInvalid={!!error} my={5}>
+    <FormControl isRequired={props.required} isInvalid={!!error} my={5}>
       <FormLabel htmlFor={field.name} mb={2}>
         {label}
-        {props.required ? <sup> *</sup> : null}
       </FormLabel>
       <InputGroup>
         <InputLeftElement color="gray.300" children={<FaLock />} />
