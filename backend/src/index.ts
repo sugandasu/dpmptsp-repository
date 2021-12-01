@@ -7,6 +7,7 @@ import { izinRoutes } from "./routes/izinRoutes";
 import path from "path";
 import { authRoutes } from "./routes/authRoutes";
 import cors from "cors";
+import { Izin } from "./entities/Izin";
 
 const main = async () => {
   const conection = await createConnection({
@@ -15,7 +16,7 @@ const main = async () => {
     logging: true,
     synchronize: !__prod__,
     migrations: [path.join(__dirname, "./migrations/*")],
-    entities: [User],
+    entities: [User, Izin],
   });
 
   if (__prod__) {
