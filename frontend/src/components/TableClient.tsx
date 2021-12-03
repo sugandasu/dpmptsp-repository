@@ -153,26 +153,28 @@ const TableClient: React.FC<TableClientProps> = ({
               size="sm"
               icon={<FaAngleLeft />}
             ></IconButton>
-            <Popover>
-              <PopoverTrigger>
-                <IconButton
-                  aria-label="ke halaman"
-                  size="sm"
-                  icon={<FaEllipsisH />}
-                ></IconButton>
-              </PopoverTrigger>
-              <PopoverContent>
-                <PopoverArrow />
-                <PopoverCloseButton />
-                <PopoverHeader>Halaman Pilihan</PopoverHeader>
-                <PopoverBody>
-                  <HStack spacing={1}>
-                    <Input></Input>
-                    <Button>Pilih</Button>
-                  </HStack>
-                </PopoverBody>
-              </PopoverContent>
-            </Popover>
+            <Box>
+              <Popover>
+                <PopoverTrigger>
+                  <IconButton
+                    aria-label="ke halaman"
+                    size="sm"
+                    icon={<FaEllipsisH />}
+                  ></IconButton>
+                </PopoverTrigger>
+                <PopoverContent>
+                  <PopoverArrow />
+                  <PopoverCloseButton />
+                  <PopoverHeader>Halaman Pilihan</PopoverHeader>
+                  <PopoverBody>
+                    <HStack spacing={1}>
+                      <Input></Input>
+                      <Button>Pilih</Button>
+                    </HStack>
+                  </PopoverBody>
+                </PopoverContent>
+              </Popover>
+            </Box>
             <IconButton
               aria-label="lanjutan"
               size="sm"
