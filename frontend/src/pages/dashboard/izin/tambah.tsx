@@ -1,23 +1,21 @@
-import { Box, Button, Heading, Link } from "@chakra-ui/react";
+import { Box, Button, Link, useToast } from "@chakra-ui/react";
 import axios from "axios";
 import { Form, Formik } from "formik";
-import { useState } from "react";
-import {
-  FaAsterisk,
-  FaBuilding,
-  FaCalendar,
-  FaFile,
-  FaUser,
-} from "react-icons/fa";
-import { AlertAll } from "../../../components/AlertAll";
+import { useRouter } from "next/router";
+import NextLink from "next/link";
+import { FaAsterisk, FaBuilding, FaCalendar, FaUser } from "react-icons/fa";
 import Card from "../../../components/Card";
 import { FieldInput } from "../../../components/FieldInput";
 import { FieldRadio } from "../../../components/FieldRadio";
 import { LayoutDashboard } from "../../../components/LayoutDashboard";
-import NextLink from "next/link";
 
 const IzinCreate = () => {
-  const [errorAll, setErrorAll] = useState("");
+  const router = useRouter();
+  const toast = useToast({
+    title: "Tambah Izin",
+    position: "top-right",
+    isClosable: true,
+  });
 
   return (
     <LayoutDashboard title="Tambah Izin">
@@ -37,19 +35,27 @@ const IzinCreate = () => {
           <Formik
             initialValues={{
               number: "",
-              type: "Perusahaan",
+              type: "Perorangan",
               name: "",
               effective_date: "",
             }}
             onSubmit={(values, { setErrors, setSubmitting }) => {
-              console.log(values);
               axios
                 .post(process.env.NEXT_PUBLIC_API_URL + "/izins", values)
-                .then((response) => {})
+                .then((response) => {
+                  toast({
+                    status: "success",
+                    description: response.data.message,
+                  });
+                  router.push("/dashboard/izin");
+                })
                 .catch((err) => {
-                  setErrors(err.response.data.errors);
                   if (err.response.data.errors?.all) {
-                    setErrorAll(err.response.data.errors.all);
+                    setErrors(err.response.data.errors);
+                    toast({
+                      status: "error",
+                      description: err.response.data.errors.all,
+                    });
                   }
                 })
                 .finally(() => {
@@ -59,13 +65,6 @@ const IzinCreate = () => {
           >
             {({ isSubmitting, values, setFieldValue }) => (
               <Form>
-                {errorAll !== "" ? (
-                  <AlertAll
-                    status="error"
-                    message={errorAll}
-                    onClose={setErrorAll}
-                  />
-                ) : null}
                 <FieldInput
                   label="Nomor Izin"
                   name="number"
