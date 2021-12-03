@@ -8,15 +8,17 @@ type CardProps = {
 
 const Card: React.FC<CardProps> = ({ children, title, aksi }) => {
   return (
-    <Box my={5} p={5} shadow="md">
+    <Box my={5} p={8} shadow="md" bgColor="white">
       {aksi ? (
         <Flex mb={5} align="center">
           <Heading fontSize="xl">{title}</Heading>
           <Spacer></Spacer>
-          <Button>Menu</Button>
+          {aksi}
         </Flex>
       ) : (
-        <Heading fontSize="xl">{title}</Heading>
+        <Heading mb={5} fontSize="xl">
+          {title}
+        </Heading>
       )}
       {children}
     </Box>
