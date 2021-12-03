@@ -1,4 +1,6 @@
+import { Button, Link } from "@chakra-ui/react";
 import axios from "axios";
+import NextLink from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { Column, useTable } from "react-table";
 import Card from "../../../components/Card";
@@ -57,7 +59,16 @@ const DashboardIzin = () => {
 
   return (
     <LayoutDashboard title="Izin">
-      <Card title="Data Izin">
+      <Card
+        title="Data Izin"
+        aksi={
+          <NextLink href="/dashboard/izin/tambah">
+            <Link>
+              <Button colorScheme="blue">Tambah</Button>
+            </Link>
+          </NextLink>
+        }
+      >
         <TableClient
           columns={columns}
           data={data}
