@@ -1,11 +1,9 @@
-import { ChevronDownIcon } from "@chakra-ui/icons";
 import {
   Avatar,
   Box,
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
-  Button,
   Flex,
   Heading,
   IconButton,
@@ -22,7 +20,7 @@ export const LayoutDashboard: React.FC<{ title: string }> = ({
   title,
 }) => {
   return (
-    <Box>
+    <Box minH="100vh" bgColor="gray.50">
       <Flex
         h="70px"
         elevation={2}
@@ -30,6 +28,7 @@ export const LayoutDashboard: React.FC<{ title: string }> = ({
         align="center"
         px={5}
         justify="center"
+        bgColor="white"
       >
         <Box maxWidth="8xl" width="100%">
           <Flex>
@@ -56,8 +55,8 @@ export const LayoutDashboard: React.FC<{ title: string }> = ({
           </Flex>
         </Box>
       </Flex>
-      <Box minHeight="800px" maxWidth="8xl" px={5} mt={8} width="100%">
-        <Heading fontSize="4xl" fontWeight="regular">
+      <Box maxWidth="8xl" px={5} py={5} width="100%">
+        <Heading fontSize="4xl" fontWeight="semibold">
           {title}
         </Heading>
         <Breadcrumb>
