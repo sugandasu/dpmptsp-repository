@@ -1,13 +1,15 @@
 import express from "express";
-import { getConnection } from "typeorm";
+import { getConnection, getRepository } from "typeorm";
 import { createIzinSchema, updateIzinSchema } from "../schemas/izinSchema";
 import { formatJoiError } from "../utils/formatJoiError";
 import { Izin } from "./../entities/Izin";
 
 export const izinRoutes = express.Router();
 
-izinRoutes.get("/", (_, res) => {
-  res.send("Hello world! Izin!");
+izinRoutes.get("/", async (_, res) => {
+  const izins = await getRepository(Izin).createQueryBuilder("user").getMany();
+
+  return res.json({ izins });
 });
 
 izinRoutes.post("/", async (req, res) => {
