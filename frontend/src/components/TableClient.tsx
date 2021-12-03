@@ -90,9 +90,6 @@ const TableClient: React.FC<TableClientProps> = ({
                   <IconButton
                     aria-label="cari"
                     size="sm"
-                    offset
-                    padding={0}
-                    preventOverflow
                     icon={<FaFilter />}
                   ></IconButton>
                 </PopoverTrigger>
