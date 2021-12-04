@@ -4,7 +4,6 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
-  Button,
   Flex,
   Heading,
   IconButton,
@@ -14,9 +13,13 @@ import {
   MenuItem,
   MenuList,
   Spacer,
+  useDisclosure,
+  VStack,
 } from "@chakra-ui/react";
-import { FaBars } from "react-icons/fa";
 import NextLink from "next/link";
+import { FaBars } from "react-icons/fa";
+import { Sidebar } from "./Sidebar";
+import { menus } from "./Menus";
 
 type LayoutDashboardProps = {
   title: string;
@@ -28,8 +31,14 @@ export const LayoutDashboard: React.FC<LayoutDashboardProps> = ({
   title,
   breadcrumbs = [],
 }) => {
+  const {
+    isOpen: menuIsOpen,
+    onOpen: setMenuIsOpen,
+    onClose: setMenuIsClose,
+  } = useDisclosure({ defaultIsOpen: false });
+
   return (
-    <Box minH="100vh" bgColor="gray.50">
+    <VStack>
       <Flex
         h="70px"
         elevation={2}
@@ -38,6 +47,7 @@ export const LayoutDashboard: React.FC<LayoutDashboardProps> = ({
         px={5}
         justify="center"
         bgColor="white"
+        width="100%"
       >
         <Box maxWidth="8xl" width="100%">
           <Flex>
@@ -46,6 +56,13 @@ export const LayoutDashboard: React.FC<LayoutDashboardProps> = ({
               bgColor="transparent"
               borderRadius="circle"
               icon={<FaBars />}
+              onClick={() => {
+                if (menuIsOpen) {
+                  setMenuIsClose();
+                } else {
+                  setMenuIsOpen();
+                }
+              }}
             />
             <Spacer></Spacer>
             <Menu>
@@ -64,32 +81,40 @@ export const LayoutDashboard: React.FC<LayoutDashboardProps> = ({
           </Flex>
         </Box>
       </Flex>
-      <Box maxWidth="8xl" px={5} py={5} width="100%">
-        <Heading fontSize="4xl" fontWeight="semibold">
-          {title}
-        </Heading>
-        <Breadcrumb>
-          {breadcrumbs.map((breadcrumb) => {
-            return (
-              <BreadcrumbItem
-                key={breadcrumb.text}
-                isCurrentPage={breadcrumb.isCurrentPage || false}
-              >
-                {breadcrumb.isCurrentPage ? (
-                  <BreadcrumbLink href={breadcrumb.href}>
-                    {breadcrumb.text}
-                  </BreadcrumbLink>
-                ) : (
-                  <NextLink href={breadcrumb.href}>
-                    <Link>{breadcrumb.text}</Link>
-                  </NextLink>
-                )}
-              </BreadcrumbItem>
-            );
-          })}
-        </Breadcrumb>
-        {children}
+      <Box align="top" minH="100vh" bgColor="gray.50" width="100%">
+        <Sidebar
+          menuIsOpen={menuIsOpen}
+          setMenuIsOpen={setMenuIsOpen}
+          setMenuIsClose={setMenuIsClose}
+          menus={menus}
+        ></Sidebar>
+        <Box maxWidth="8xl" width="100%" px={5} py={5}>
+          <Heading fontSize="4xl" fontWeight="semibold">
+            {title}
+          </Heading>
+          <Breadcrumb>
+            {breadcrumbs.map((breadcrumb) => {
+              return (
+                <BreadcrumbItem
+                  key={breadcrumb.text}
+                  isCurrentPage={breadcrumb.isCurrentPage || false}
+                >
+                  {breadcrumb.isCurrentPage ? (
+                    <BreadcrumbLink href={breadcrumb.href}>
+                      {breadcrumb.text}
+                    </BreadcrumbLink>
+                  ) : (
+                    <NextLink href={breadcrumb.href}>
+                      <Link>{breadcrumb.text}</Link>
+                    </NextLink>
+                  )}
+                </BreadcrumbItem>
+              );
+            })}
+          </Breadcrumb>
+          {children}
+        </Box>
       </Box>
-    </Box>
+    </VStack>
   );
 };
