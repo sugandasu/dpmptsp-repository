@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 
 const IzinEdit = () => {
   const router = useRouter();
-  const [initialValues, setInitialValues] = useState({
+  const [izin, setIzin] = useState({
     number: "",
     type: "Perorangan",
     name: "",
@@ -28,7 +28,7 @@ const IzinEdit = () => {
       await axios
         .get(process.env.NEXT_PUBLIC_API_URL + `/izins/${router.query.id}`)
         .then((response) => {
-          setInitialValues(response.data.izin);
+          setIzin(response.data.izin);
         })
         .catch((err) => {
           if (err.response.data.errors?.all) {
@@ -74,7 +74,7 @@ const IzinEdit = () => {
           </NextLink>
         }
       >
-        {initialValues.number === "" ? (
+        {izin.number === "" ? (
           <Flex justify="center">
             <Spinner
               thickness="4px"
@@ -87,7 +87,7 @@ const IzinEdit = () => {
         ) : (
           <Box>
             <Formik
-              initialValues={{ ...initialValues }}
+              initialValues={{ ...izin }}
               onSubmit={(values, { setErrors, setSubmitting }) => {
                 axios
                   .put(
