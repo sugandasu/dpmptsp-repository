@@ -1,11 +1,12 @@
-import { Button, Link } from "@chakra-ui/react";
+import { Button, HStack, Link } from "@chakra-ui/react";
 import axios from "axios";
 import NextLink from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { Column, useTable } from "react-table";
-import Card from "../../../components/Card";
+import { FaEdit, FaTrash } from "react-icons/fa";
+import { Column } from "react-table";
+import { Card } from "../../../components/Card";
 import { LayoutDashboard } from "../../../components/LayoutDashboard";
-import TableClient from "../../../components/TableClient";
+import { TableClient } from "../../../components/TableClient";
 
 const DashboardIzin = () => {
   const columns = useMemo<
@@ -18,10 +19,6 @@ const DashboardIzin = () => {
     }>[]
   >(
     () => [
-      {
-        Header: "#",
-        accessor: "id",
-      },
       {
         Header: "Nomor Izin",
         accessor: "number",
@@ -37,6 +34,29 @@ const DashboardIzin = () => {
       {
         Header: "Tanggal Berlaku",
         accessor: "effectiveDate",
+      },
+      {
+        Header: "Aksi",
+        accessor: "id",
+        Cell: (cellObj) => {
+          return (
+            <HStack spacing={1}>
+              <NextLink href={`/dashboard/izin/ubah/${cellObj.row.values.id}`}>
+                <Link>
+                  <Button size="xs" colorScheme="blue" leftIcon={<FaEdit />}>
+                    Ubah
+                  </Button>
+                </Link>
+              </NextLink>
+
+              <Button size="xs" colorScheme="red" leftIcon={<FaTrash />}>
+                Hapus
+              </Button>
+            </HStack>
+          );
+        },
+        disableSortBy: true,
+        disableGlobalFilter: true,
       },
     ],
     []
@@ -54,17 +74,22 @@ const DashboardIzin = () => {
       });
   }, []);
 
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns, data });
-
   return (
-    <LayoutDashboard title="Izin">
+    <LayoutDashboard
+      title="Izin"
+      breadcrumbs={[
+        { text: "Dashboard", href: "/dashboard" },
+        { text: "Izin", href: "/dashboard/izin", isCurrentPage: true },
+      ]}
+    >
       <Card
         title="Data Izin"
         aksi={
           <NextLink href="/dashboard/izin/tambah">
             <Link>
-              <Button colorScheme="blue">Tambah</Button>
+              <Button size="sm" colorScheme="blue">
+                Tambah
+              </Button>
             </Link>
           </NextLink>
         }
@@ -73,6 +98,7 @@ const DashboardIzin = () => {
           columns={columns}
           data={data}
           tableCaption="Izin yang ada di DPMPTSP Sulawesi Tengah"
+          sortBy={[{ id: "number", desc: false }]}
         ></TableClient>
       </Card>
     </LayoutDashboard>

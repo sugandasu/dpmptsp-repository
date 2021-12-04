@@ -4,9 +4,11 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
+  Button,
   Flex,
   Heading,
   IconButton,
+  Link,
   Menu,
   MenuButton,
   MenuItem,
@@ -14,10 +16,17 @@ import {
   Spacer,
 } from "@chakra-ui/react";
 import { FaBars } from "react-icons/fa";
+import NextLink from "next/link";
 
-export const LayoutDashboard: React.FC<{ title: string }> = ({
+type LayoutDashboardProps = {
+  title: string;
+  breadcrumbs?: { text: string; href: string; isCurrentPage?: boolean }[];
+};
+
+export const LayoutDashboard: React.FC<LayoutDashboardProps> = ({
   children,
   title,
+  breadcrumbs = [],
 }) => {
   return (
     <Box minH="100vh" bgColor="gray.50">
@@ -60,9 +69,24 @@ export const LayoutDashboard: React.FC<{ title: string }> = ({
           {title}
         </Heading>
         <Breadcrumb>
-          <BreadcrumbItem isCurrentPage>
-            <BreadcrumbLink href="#">Dashboard</BreadcrumbLink>
-          </BreadcrumbItem>
+          {breadcrumbs.map((breadcrumb) => {
+            return (
+              <BreadcrumbItem
+                key={breadcrumb.text}
+                isCurrentPage={breadcrumb.isCurrentPage || false}
+              >
+                {breadcrumb.isCurrentPage ? (
+                  <BreadcrumbLink href={breadcrumb.href}>
+                    {breadcrumb.text}
+                  </BreadcrumbLink>
+                ) : (
+                  <NextLink href={breadcrumb.href}>
+                    <Link>{breadcrumb.text}</Link>
+                  </NextLink>
+                )}
+              </BreadcrumbItem>
+            );
+          })}
         </Breadcrumb>
         {children}
       </Box>

@@ -70,7 +70,7 @@ const GlobalFilter = ({ globalFilter, setGlobalFilter }) => {
   );
 };
 
-const TableClient: React.FC<TableClientProps> = ({
+export const TableClient: React.FC<TableClientProps> = ({
   columns,
   data,
   tableCaption,
@@ -261,5 +261,3 @@ const TableClient: React.FC<TableClientProps> = ({
     ></ReactTable>
   );
 };
-
-export default TableClient;

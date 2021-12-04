@@ -4,7 +4,7 @@ import { Form, Formik } from "formik";
 import { useRouter } from "next/router";
 import NextLink from "next/link";
 import { FaAsterisk, FaBuilding, FaCalendar, FaUser } from "react-icons/fa";
-import Card from "../../../components/Card";
+import { Card } from "../../../components/Card";
 import { FieldInput } from "../../../components/FieldInput";
 import { FieldRadio } from "../../../components/FieldRadio";
 import { LayoutDashboard } from "../../../components/LayoutDashboard";
@@ -18,7 +18,18 @@ const IzinCreate = () => {
   });
 
   return (
-    <LayoutDashboard title="Tambah Izin">
+    <LayoutDashboard
+      title="Tambah Izin"
+      breadcrumbs={[
+        { text: "Dashboard", href: "/dashboard" },
+        { text: "Izin", href: "/dashboard/izin" },
+        {
+          text: "Tambah Izin",
+          href: "/dashboard/izin/tambah",
+          isCurrentPage: true,
+        },
+      ]}
+    >
       <Card
         title="Form Tambah Izin"
         aksi={

@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Heading, Spacer } from "@chakra-ui/react";
+import { Box, Flex, Heading, Spacer } from "@chakra-ui/react";
 import React from "react";
 
 type CardProps = {
@@ -6,7 +6,7 @@ type CardProps = {
   aksi?: React.ReactNode;
 };
 
-const Card: React.FC<CardProps> = ({ children, title, aksi }) => {
+export const Card: React.FC<CardProps> = ({ children, title, aksi }) => {
   return (
     <Box my={5} p={8} shadow="md" bgColor="white">
       {aksi ? (
@@ -24,5 +24,3 @@ const Card: React.FC<CardProps> = ({ children, title, aksi }) => {
     </Box>
   );
 };
-
-export default Card;
