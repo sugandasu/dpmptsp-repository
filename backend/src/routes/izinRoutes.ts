@@ -77,7 +77,7 @@ izinRoutes.put("/:id", async (req, res) => {
         name: name,
         effectiveDate: effective_date,
       },
-      message: "Pembuatan izin berhasil",
+      message: "Perubahan izin berhasil",
     });
   } catch (err) {
     return res.status(422).json({ errors: formatJoiError(err) });
