@@ -62,12 +62,13 @@ const IzinCreate = () => {
                 })
                 .catch((err) => {
                   if (err.response.data.errors?.all) {
-                    setErrors(err.response.data.errors);
                     toast({
                       status: "error",
                       description: err.response.data.errors.all,
                     });
+                    return;
                   }
+                  setErrors(err.response.data.errors);
                 })
                 .finally(() => {
                   setSubmitting(false);
