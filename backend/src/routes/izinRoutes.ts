@@ -31,6 +31,25 @@ izinRoutes.post("/", async (req, res) => {
   }
 });
 
+izinRoutes.get("/:id", async (req, res) => {
+  if (!isNaN(parseInt(req.params.id))) {
+    const izin = await Izin.findOne({ id: parseInt(req.params.id) });
+    if (izin) {
+      return res.json({
+        izin: {
+          number: izin.number,
+          type: izin.type,
+          name: izin.name,
+          effective_date: izin.effectiveDate,
+        },
+      });
+    }
+  }
+  return res.status(422).json({
+    errors: { all: "Izin tidak ditemukan" },
+  });
+});
+
 izinRoutes.put("/:id", async (req, res) => {
   try {
     const { number, type, name, effective_date } =
