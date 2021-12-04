@@ -1,8 +1,8 @@
 import {
   Box,
-  Button,
   Flex,
   HStack,
+  Icon,
   IconButton,
   Input,
   Popover,
@@ -29,19 +29,31 @@ import {
   FaAngleRight,
   FaEllipsisH,
   FaFilter,
+  FaSort,
+  FaSortDown,
+  FaSortUp,
 } from "react-icons/fa";
-import { Column, useFilters, useGlobalFilter, useTable } from "react-table";
+import {
+  Column,
+  SortingRule,
+  useGlobalFilter,
+  usePagination,
+  useSortBy,
+  useTable,
+} from "react-table";
 
 type TableClientProps = {
   columns: Column<any>[];
   data: any[];
   tableCaption: string;
+  sortBy?: SortingRule<any>[];
 };
 
 type ReactTableProps = {
   columns: Column<any>[];
   data: any[];
   tableCaption: string;
+  sortBy?: SortingRule<any>[];
 };
 
 const GlobalFilter = ({ globalFilter, setGlobalFilter }) => {
@@ -62,6 +74,7 @@ const TableClient: React.FC<TableClientProps> = ({
   columns,
   data,
   tableCaption,
+  sortBy,
 }) => {
   const ReactTable: React.FC<ReactTableProps> = ({
     columns,
@@ -72,16 +85,36 @@ const TableClient: React.FC<TableClientProps> = ({
       getTableProps,
       getTableBodyProps,
       headerGroups,
-      rows,
-      state,
-      setGlobalFilter,
       prepareRow,
-    } = useTable({ columns, data }, useFilters, useGlobalFilter);
+      page,
+      rows,
+      //
+      setGlobalFilter,
+      canPreviousPage,
+      canNextPage,
+      pageOptions,
+      gotoPage,
+      nextPage,
+      previousPage,
+      setPageSize,
+      state: { pageIndex, pageSize, globalFilter },
+    } = useTable(
+      {
+        columns,
+        data,
+        initialState: { pageIndex: 0, sortBy },
+      },
+      useGlobalFilter,
+      useSortBy,
+      usePagination
+    );
 
     return (
       <Box my={5}>
         <Flex align="center" mb={5}>
-          <Text size="sm">Halaman 1 dari 2</Text>
+          <Text size="sm">
+            Tampilkan {page.length} data dari {rows.length}
+          </Text>
           <Spacer></Spacer>
           <HStack spacing={1}>
             <Box>
@@ -99,15 +132,26 @@ const TableClient: React.FC<TableClientProps> = ({
                   <PopoverHeader>Cari</PopoverHeader>
                   <PopoverBody>
                     <GlobalFilter
-                      globalFilter={state.globalFilter}
+                      globalFilter={globalFilter}
                       setGlobalFilter={setGlobalFilter}
                     />
                   </PopoverBody>
                 </PopoverContent>
               </Popover>
             </Box>
-            <Select size="sm" rounded="md">
-              <option value="5">5</option>
+            <Select
+              size="sm"
+              rounded="md"
+              value={pageSize}
+              onChange={(e) => {
+                setPageSize(Number(e.target.value));
+              }}
+            >
+              {[10, 20, 30, 40, 50].map((pageSize) => (
+                <option key={pageSize} value={pageSize}>
+                  {pageSize}
+                </option>
+              ))}
             </Select>
           </HStack>
         </Flex>
@@ -118,15 +162,28 @@ const TableClient: React.FC<TableClientProps> = ({
               {headerGroups.map((headerGroup) => (
                 <Tr {...headerGroup.getHeaderGroupProps()}>
                   {headerGroup.headers.map((column) => (
-                    <Th {...column.getHeaderProps()}>
+                    <Th
+                      {...column.getHeaderProps(column.getSortByToggleProps())}
+                    >
                       {column.render("Header")}
+                      {column.isSorted ? (
+                        column.isSortedDesc ? (
+                          <Icon as={FaSortUp} />
+                        ) : (
+                          <Icon as={FaSortDown} />
+                        )
+                      ) : column.canSort ? (
+                        <Icon as={FaSort} />
+                      ) : (
+                        ""
+                      )}
                     </Th>
                   ))}
                 </Tr>
               ))}
             </Thead>
             <Tbody {...getTableBodyProps()}>
-              {rows.map((row) => {
+              {page.map((row) => {
                 prepareRow(row);
                 return (
                   <Tr {...row.getRowProps()}>
@@ -142,13 +199,17 @@ const TableClient: React.FC<TableClientProps> = ({
           </Table>
         </Flex>
         <Flex align="center">
-          <Text fontSize="sm">10 data dari 15</Text>
+          <Text fontSize="sm">
+            Halaman {pageIndex + 1} dari {pageOptions.length}
+          </Text>
           <Spacer></Spacer>
           <HStack spacing={1}>
             <IconButton
               aria-label="sebelum"
               size="sm"
               icon={<FaAngleLeft />}
+              onClick={previousPage}
+              disabled={!canPreviousPage}
             ></IconButton>
             <Box>
               <Popover>
@@ -165,8 +226,14 @@ const TableClient: React.FC<TableClientProps> = ({
                   <PopoverHeader>Halaman Pilihan</PopoverHeader>
                   <PopoverBody>
                     <HStack spacing={1}>
-                      <Input></Input>
-                      <Button>Pilih</Button>
+                      <Input
+                        onChange={(e) => {
+                          const page = e.target.value
+                            ? Number(e.target.value) - 1
+                            : 0;
+                          gotoPage(page);
+                        }}
+                      ></Input>
                     </HStack>
                   </PopoverBody>
                 </PopoverContent>
@@ -176,6 +243,8 @@ const TableClient: React.FC<TableClientProps> = ({
               aria-label="lanjutan"
               size="sm"
               icon={<FaAngleRight />}
+              onClick={nextPage}
+              disabled={!canNextPage}
             ></IconButton>
           </HStack>
         </Flex>
@@ -188,6 +257,7 @@ const TableClient: React.FC<TableClientProps> = ({
       columns={columns}
       data={data}
       tableCaption={tableCaption}
+      sortBy={sortBy}
     ></ReactTable>
   );
 };
