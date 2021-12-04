@@ -1,4 +1,4 @@
-import { Button, HStack, Link } from "@chakra-ui/react";
+import { Button, HStack, IconButton, Link } from "@chakra-ui/react";
 import axios from "axios";
 import NextLink from "next/link";
 import { useEffect, useMemo, useState } from "react";
@@ -43,15 +43,22 @@ const DashboardIzin = () => {
             <HStack spacing={1}>
               <NextLink href={`/dashboard/izin/ubah/${cellObj.row.values.id}`}>
                 <Link>
-                  <Button size="xs" colorScheme="blue" leftIcon={<FaEdit />}>
-                    Ubah
-                  </Button>
+                  <IconButton
+                    aria-label="Ubah"
+                    size="sm"
+                    bgColor="transparent"
+                    color="blue.500"
+                    icon={<FaEdit />}
+                  ></IconButton>
                 </Link>
               </NextLink>
-
-              <Button size="xs" colorScheme="red" leftIcon={<FaTrash />}>
-                Hapus
-              </Button>
+              <IconButton
+                size="sm"
+                aria-label="Hapus"
+                bgColor="transparent"
+                color="red.500"
+                icon={<FaTrash />}
+              ></IconButton>
             </HStack>
           );
         },
