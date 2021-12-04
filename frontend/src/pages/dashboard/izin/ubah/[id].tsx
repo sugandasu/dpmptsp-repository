@@ -68,7 +68,7 @@ const IzinEdit = () => {
           <NextLink href="/dashboard/izin">
             <Link>
               <Button bg="red.500" color="white">
-                Kembali
+                Batal
               </Button>
             </Link>
           </NextLink>
