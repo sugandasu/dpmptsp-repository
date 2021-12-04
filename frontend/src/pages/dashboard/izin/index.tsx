@@ -52,13 +52,17 @@ const DashboardIzin = () => {
                   ></IconButton>
                 </Link>
               </NextLink>
-              <IconButton
-                size="sm"
-                aria-label="Hapus"
-                bgColor="transparent"
-                color="red.500"
-                icon={<FaTrash />}
-              ></IconButton>
+              <NextLink href={`/dashboard/izin/hapus/${cellObj.row.values.id}`}>
+                <Link>
+                  <IconButton
+                    size="sm"
+                    aria-label="Hapus"
+                    bgColor="transparent"
+                    color="red.500"
+                    icon={<FaTrash />}
+                  ></IconButton>
+                </Link>
+              </NextLink>
             </HStack>
           );
         },
