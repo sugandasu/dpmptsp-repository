@@ -28,7 +28,7 @@ export const request = {
     });
   },
 
-  setToken: (token: string) => {
+  setAccessToken: (token: string) => {
     accessToken = token;
   },
 };

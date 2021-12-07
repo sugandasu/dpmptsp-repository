@@ -1,5 +1,5 @@
 import { Box, Button, Flex, Heading, VStack } from "@chakra-ui/react";
-import axios, { AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
 import { Form, Formik } from "formik";
 import { useState } from "react";
 import { FaUser } from "react-icons/fa";
@@ -27,7 +27,7 @@ const Login = () => {
                   data: values,
                 })
                 .then((response: AxiosResponse) => {
-                  request.setToken(response.data.accessToken);
+                  request.setAccessToken(response.data.accessToken);
                 })
                 .catch((err) => {
                   setErrors(err.response.data.errors);
@@ -72,44 +72,6 @@ const Login = () => {
             )}
           </Formik>
         </Box>
-        <Button
-          width="100%"
-          onClick={() => {
-            request
-              .sendRequest({
-                method: "POST",
-                url: process.env.NEXT_PUBLIC_API_URL + "/auth/me",
-                data: {},
-              })
-              .then((response) => {
-                console.log(response);
-              })
-              .catch((err) => {
-                console.log(err);
-              });
-          }}
-        >
-          Me
-        </Button>
-        <Button
-          width="100%"
-          onClick={() => {
-            request
-              .sendRequest({
-                method: "POST",
-                url: process.env.NEXT_PUBLIC_API_URL + "/auth/refresh_token",
-                data: {},
-              })
-              .then((response) => {
-                console.log(response);
-              })
-              .catch((err) => {
-                console.log(err);
-              });
-          }}
-        >
-          Refresh Token
-        </Button>
       </VStack>
     </Flex>
   );

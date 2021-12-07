@@ -80,7 +80,7 @@ const IzinEdit = () => {
               thickness="4px"
               speed="0.8s"
               emptyColor="gray.200"
-              color="green.500"
+              color="blue.500"
               size="lg"
             />
           </Flex>
