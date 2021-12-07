@@ -3,7 +3,7 @@ import { AxiosResponse } from "axios";
 import { AppProps } from "next/app";
 import { useEffect, useState } from "react";
 import { LoadingFull } from "../components/LoadingFull";
-import { request } from "../request";
+import { request } from "../utils/request";
 import theme from "../theme";
 
 function MyApp({ Component, pageProps }: AppProps) {

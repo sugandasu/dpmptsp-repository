@@ -1,7 +1,7 @@
 import { useToast } from "@chakra-ui/react";
 import { AxiosResponse } from "axios";
 import { useRouter } from "next/router";
-import { request } from "../request";
+import { request } from "../utils/request";
 
 const isAuth = async () => {
   const router = useRouter();

@@ -6,7 +6,7 @@ import { FaUser } from "react-icons/fa";
 import { AlertAll } from "../components/AlertAll";
 import { FieldInput } from "../components/FieldInput";
 import { FieldPassword } from "../components/FieldPassword";
-import { request } from "../request";
+import { request } from "../utils/request";
 
 const Login = () => {
   const [errorAll, setErrorAll] = useState("");
