@@ -100,7 +100,7 @@ authRoutes.post("/me", authenticated, async (req, res) => {
       })
       .execute();
     return res.json({
-      user: user,
+      user: { username: user.username, role: user.role },
     });
   }
 
