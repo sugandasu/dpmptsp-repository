@@ -1,7 +1,8 @@
 declare namespace NodeJS {
   interface ProcessEnv {
     TOKEN_SECRET: string;
-    SESSION_SECRET: string;
+    REFRESH_TOKEN_SECRET: string;
+    COOKIE_NAME: string;
     DATABASE_URL: string;
     PORT: string;
     BACKEND_URL: string;
