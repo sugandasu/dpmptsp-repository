@@ -1,13 +1,14 @@
+import cookieParser from "cookie-parser";
+import cors from "cors";
 import "dotenv-safe/config";
 import express from "express";
+import path from "path";
 import { createConnection } from "typeorm";
 import { __prod__ } from "./constants";
-import { User } from "./entities/User";
-import { izinRoutes } from "./routes/izinRoutes";
-import path from "path";
-import { authRoutes } from "./routes/authRoutes";
-import cors from "cors";
 import { Izin } from "./entities/Izin";
+import { User } from "./entities/User";
+import { authRoutes } from "./routes/authRoutes";
+import { izinRoutes } from "./routes/izinRoutes";
 
 const main = async () => {
   const conection = await createConnection({
@@ -25,6 +26,7 @@ const main = async () => {
 
   const app = express();
   app.use(express.json());
+  app.use(cookieParser());
   app.use(cors({ origin: process.env.DOMAIN_NAME, credentials: true }));
 
   app.get("/", (_, res) => {
