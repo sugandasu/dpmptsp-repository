@@ -18,10 +18,12 @@ function MyApp({ Component, pageProps }: AppProps) {
       })
       .then((response: AxiosResponse) => {
         request.setAccessToken(response.data.accessToken);
-        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, []);
   return (
