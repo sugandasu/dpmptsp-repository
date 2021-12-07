@@ -1,12 +1,14 @@
 import argon2 from "argon2";
 import express from "express";
+import { authenticated } from "../middlewares/Authenticated";
 import { getConnection } from "typeorm";
 import { User } from "../entities/User";
-import { authenticateToken } from "../utils/authenticateToken";
 import { formatJoiError } from "../utils/formatJoiError";
+import { generateAccessToken } from "../utils/generateToken";
 import { loginSchema } from "./../schemas/loginSchema";
 import { registerSchema } from "./../schemas/registerSchema";
-import { generateAccessToken } from "./../utils/generateAccessToken";
+import { generateRefreshToken } from "./../utils/generateToken";
+import { verify } from "jsonwebtoken";
 
 export const authRoutes = express.Router();
 
@@ -51,8 +53,13 @@ authRoutes.post("/login", async (req, res) => {
         })
         .execute();
 
+      res.cookie(process.env.COOKIE_NAME, generateRefreshToken(user), {
+        httpOnly: true,
+      });
+
       return res.json({
-        user: { username: user.username, token },
+        user: { username: user.username, role: user.role },
+        accessToken: token,
         message: "Login berhasil",
       });
     }
@@ -62,8 +69,8 @@ authRoutes.post("/login", async (req, res) => {
     .json({ errors: { all: "Username atau password salah" } });
 });
 
-authRoutes.post("/logout", authenticateToken, async (req, res) => {
-  const user = await User.findOne({ where: { username: req?.user?.username } });
+authRoutes.post("/logout", authenticated, async (req, res) => {
+  const user = await User.findOne({ id: req?.user?.userId });
   if (user) {
     await getConnection()
       .createQueryBuilder()
@@ -81,4 +88,46 @@ authRoutes.post("/logout", authenticateToken, async (req, res) => {
   return res.json({
     message: "Logout berhasil",
   });
+});
+
+authRoutes.post("/me", authenticated, async (req, res) => {
+  const user = await User.findOne({ id: req?.user?.userId });
+  if (user) {
+    await getConnection()
+      .createQueryBuilder()
+      .update(User)
+      .set({ token: null })
+      .where("id = :id", {
+        id: user.id,
+      })
+      .execute();
+    return res.json({
+      user: user,
+    });
+  }
+
+  return res.status(401).json({
+    message: "Unauthenticated",
+  });
+});
+
+authRoutes.post("/refresh_token", async (req, res) => {
+  const token = req.cookies[process.env.COOKIE_NAME];
+  if (!token) {
+    return res.send({ accessToken: "" });
+  }
+
+  let cookie: any = null;
+  try {
+    cookie = verify(token, process.env.REFRESH_TOKEN_SECRET);
+  } catch (error) {
+    return res.send({ accessToken: "" });
+  }
+
+  const user = await User.findOne({ id: cookie.userId });
+  if (!user) {
+    return res.send({ accessToken: "" });
+  }
+
+  return res.send({ accessToken: generateAccessToken(user) });
 });
