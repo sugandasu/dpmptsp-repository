@@ -1,8 +1,10 @@
 import { Box, Heading } from "@chakra-ui/react";
 import { Card } from "../../components/Card";
 import { LayoutDashboard } from "../../components/LayoutDashboard";
+import isAuth from "../../middlewares/isAuth";
 
 const DashboardIndex = () => {
+  isAuth();
   return (
     <LayoutDashboard
       title="Dashboard"

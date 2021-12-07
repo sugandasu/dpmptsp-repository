@@ -14,8 +14,10 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Card } from "../../../../components/Card";
 import { LayoutDashboard } from "../../../../components/LayoutDashboard";
+import isAuth from "../../../../middlewares/isAuth";
 
 const IzinDelete = () => {
+  isAuth();
   const router = useRouter();
   const [izin, setIzin] = useState({
     number: "",

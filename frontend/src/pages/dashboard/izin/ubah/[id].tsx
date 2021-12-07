@@ -9,8 +9,10 @@ import { FieldInput } from "../../../../components/FieldInput";
 import { FieldRadio } from "../../../../components/FieldRadio";
 import { LayoutDashboard } from "../../../../components/LayoutDashboard";
 import { useEffect, useState } from "react";
+import isAuth from "../../../../middlewares/isAuth";
 
 const IzinEdit = () => {
+  isAuth();
   const router = useRouter();
   const [izin, setIzin] = useState({
     number: "",

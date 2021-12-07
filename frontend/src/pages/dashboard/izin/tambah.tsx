@@ -8,8 +8,10 @@ import { Card } from "../../../components/Card";
 import { FieldInput } from "../../../components/FieldInput";
 import { FieldRadio } from "../../../components/FieldRadio";
 import { LayoutDashboard } from "../../../components/LayoutDashboard";
+import isAuth from "../../../middlewares/isAuth";
 
 const IzinCreate = () => {
+  isAuth();
   const router = useRouter();
   const toast = useToast({
     title: "Tambah Izin",

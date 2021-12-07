@@ -7,8 +7,10 @@ import { Column } from "react-table";
 import { Card } from "../../../components/Card";
 import { LayoutDashboard } from "../../../components/LayoutDashboard";
 import { TableClient } from "../../../components/TableClient";
+import isAuth from "../../../middlewares/isAuth";
 
 const DashboardIzin = () => {
+  isAuth();
   const columns = useMemo<
     Column<{
       id: string;
