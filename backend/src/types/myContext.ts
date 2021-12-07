@@ -1,1 +1,1 @@
-export type UserReqType = { username: string; role: string };
+export type UserReqType = { userId: number };
