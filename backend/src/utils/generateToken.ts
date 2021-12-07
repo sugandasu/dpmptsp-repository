@@ -2,21 +2,24 @@ import jwt from "jsonwebtoken";
 import { User } from "../entities/User";
 
 export const generateAccessToken = (user: User) => {
-  if (user) {
-    return jwt.sign({ userId: user.id }, process.env.TOKEN_SECRET, {
-      expiresIn: "15m",
-    });
-  }
-
-  return null;
+  return jwt.sign({ userId: user.id }, process.env.TOKEN_SECRET, {
+    expiresIn: "15m",
+  });
 };
 
 export const generateRefreshToken = (user: User) => {
-  if (user) {
-    return jwt.sign({ userId: user.id }, process.env.REFRESH_TOKEN_SECRET, {
+  return jwt.sign(
+    { userId: user.id, tokenVersion: user.tokenVersion },
+    process.env.REFRESH_TOKEN_SECRET,
+    {
       expiresIn: "7d",
-    });
-  }
+    }
+  );
+};
 
-  return null;
+export const sendRefreshToken = (res: any, token: string) => {
+  res.cookie(process.env.COOKIE_NAME, token, {
+    httpOnly: true,
+    path: "/api/v1/auth/refresh_token",
+  });
 };

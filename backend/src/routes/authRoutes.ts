@@ -4,7 +4,7 @@ import { authenticated } from "../middlewares/Authenticated";
 import { getConnection } from "typeorm";
 import { User } from "../entities/User";
 import { formatJoiError } from "../utils/formatJoiError";
-import { generateAccessToken } from "../utils/generateToken";
+import { generateAccessToken, sendRefreshToken } from "../utils/generateToken";
 import { loginSchema } from "./../schemas/loginSchema";
 import { registerSchema } from "./../schemas/registerSchema";
 import { generateRefreshToken } from "./../utils/generateToken";
@@ -53,9 +53,7 @@ authRoutes.post("/login", async (req, res) => {
         })
         .execute();
 
-      res.cookie(process.env.COOKIE_NAME, generateRefreshToken(user), {
-        httpOnly: true,
-      });
+      sendRefreshToken(res, generateRefreshToken(user));
 
       return res.json({
         user: { username: user.username, role: user.role },
@@ -128,6 +126,12 @@ authRoutes.post("/refresh_token", async (req, res) => {
   if (!user) {
     return res.send({ accessToken: "" });
   }
+
+  if (user.tokenVersion !== cookie.tokenVersion) {
+    return res.send({ accessToken: "" });
+  }
+
+  sendRefreshToken(res, generateRefreshToken(user));
 
   return res.send({ accessToken: generateAccessToken(user) });
 });
