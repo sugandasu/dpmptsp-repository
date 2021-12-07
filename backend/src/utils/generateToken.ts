@@ -1,3 +1,4 @@
+import { Response } from "express";
 import jwt from "jsonwebtoken";
 import { User } from "../entities/User";
 
@@ -17,7 +18,7 @@ export const generateRefreshToken = (user: User) => {
   );
 };
 
-export const sendRefreshToken = (res: any, token: string) => {
+export const sendRefreshToken = (res: Response, token: string) => {
   res.cookie(process.env.COOKIE_NAME, token, {
     httpOnly: true,
     path: "/api/v1/auth/refresh_token",
