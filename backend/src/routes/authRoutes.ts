@@ -112,23 +112,31 @@ authRoutes.get("/me", authenticated, async (req, res) => {
 authRoutes.post("/refresh_token", async (req, res) => {
   const token = req.cookies[process.env.COOKIE_NAME];
   if (!token) {
-    return res.send({ accessToken: "" });
+    return res.status(401).json({
+      message: "Unauthenticated",
+    });
   }
 
   let cookie: any = null;
   try {
     cookie = verify(token, process.env.REFRESH_TOKEN_SECRET);
   } catch (error) {
-    return res.send({ accessToken: "" });
+    return res.status(401).json({
+      message: "Unauthenticated",
+    });
   }
 
   const user = await User.findOne({ id: cookie.userId });
   if (!user) {
-    return res.send({ accessToken: "" });
+    return res.status(401).json({
+      message: "Unauthenticated",
+    });
   }
 
   if (user.tokenVersion !== cookie.tokenVersion) {
-    return res.send({ accessToken: "" });
+    return res.status(401).json({
+      message: "Unauthenticated",
+    });
   }
 
   sendRefreshToken(res, generateRefreshToken(user));

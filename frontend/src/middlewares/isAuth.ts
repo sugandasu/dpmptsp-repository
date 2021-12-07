@@ -10,6 +10,23 @@ const isAuth = async () => {
     position: "top-right",
     isClosable: true,
   });
+
+  if (request.accessTokenExpired()) {
+    await request
+      .sendRequest({
+        method: "POST",
+        url: process.env.NEXT_PUBLIC_API_URL + "/auth/refresh_token",
+        data: {},
+      })
+      .then((response: AxiosResponse) => {
+        request.setAccessToken(response.data.accessToken);
+      })
+      .catch((err) => {
+        toast({ status: "error", description: err.response.data.message });
+        router.push(`/login?next=${router.pathname}`);
+      });
+  }
+
   await request
     .sendRequest({
       method: "GET",

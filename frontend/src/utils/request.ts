@@ -1,4 +1,5 @@
 import axios, { Method } from "axios";
+import jwtDecode from "jwt-decode";
 
 let accessToken: string = "";
 
@@ -30,5 +31,18 @@ export const request = {
 
   setAccessToken: (token: string) => {
     accessToken = token;
+  },
+
+  accessTokenExpired: (): boolean => {
+    try {
+      const decode: any = jwtDecode(accessToken);
+      if (Date.now() >= decode.exp * 1000) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch {
+      return true;
+    }
   },
 };

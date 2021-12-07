@@ -3,8 +3,8 @@ import { AxiosResponse } from "axios";
 import { AppProps } from "next/app";
 import { useEffect, useState } from "react";
 import { LoadingFull } from "../components/LoadingFull";
-import { request } from "../utils/request";
 import theme from "../theme";
+import { request } from "../utils/request";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [loading, setLoading] = useState(true);
