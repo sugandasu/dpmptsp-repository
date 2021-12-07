@@ -88,7 +88,7 @@ authRoutes.post("/logout", authenticated, async (req, res) => {
   });
 });
 
-authRoutes.post("/me", authenticated, async (req, res) => {
+authRoutes.get("/me", authenticated, async (req, res) => {
   const user = await User.findOne({ id: req?.user?.userId });
   if (user) {
     await getConnection()
