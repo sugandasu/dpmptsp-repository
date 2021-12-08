@@ -1,25 +1,18 @@
 import {
-  Avatar,
   Box,
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   Flex,
   Heading,
-  IconButton,
   Link,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Spacer,
   useDisclosure,
   VStack,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
-import { FaBars } from "react-icons/fa";
-import { Sidebar } from "./Sidebar";
 import { menus } from "./Menus";
+import { NavbarDashboard } from "./NavbarDashboard";
+import { Sidebar } from "./Sidebar";
 
 type LayoutDashboardProps = {
   title: string;
@@ -49,37 +42,11 @@ export const LayoutDashboard: React.FC<LayoutDashboardProps> = ({
         bgColor="white"
         width="100%"
       >
-        <Box maxWidth="8xl" width="100%">
-          <Flex>
-            <IconButton
-              aria-label="Menu"
-              bgColor="transparent"
-              borderRadius="circle"
-              icon={<FaBars />}
-              onClick={() => {
-                if (menuIsOpen) {
-                  setMenuIsClose();
-                } else {
-                  setMenuIsOpen();
-                }
-              }}
-            />
-            <Spacer></Spacer>
-            <Menu>
-              <MenuButton
-                as={IconButton}
-                aria-label="Profile"
-                bgColor="transparent"
-                isRound
-                icon={<Avatar size="sm" />}
-              ></MenuButton>
-              <MenuList>
-                <MenuItem>Profile</MenuItem>
-                <MenuItem>Logout</MenuItem>
-              </MenuList>
-            </Menu>
-          </Flex>
-        </Box>
+        <NavbarDashboard
+          menuIsOpen={menuIsOpen}
+          setMenuIsOpen={setMenuIsOpen}
+          setMenuIsClose={setMenuIsClose}
+        />
       </Flex>
       <Box align="top" minH="100vh" bgColor="gray.50" width="100%">
         <Sidebar
