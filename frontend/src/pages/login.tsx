@@ -7,9 +7,11 @@ import { FaUser } from "react-icons/fa";
 import { AlertAll } from "../components/AlertAll";
 import { FieldInput } from "../components/FieldInput";
 import { FieldPassword } from "../components/FieldPassword";
+import isGuest from "../middlewares/isGuest";
 import { request } from "../utils/request";
 
 const Login = () => {
+  isGuest();
   const [errorAll, setErrorAll] = useState("");
   const router = useRouter();
   return (
