@@ -1,6 +1,7 @@
 import { useToast } from "@chakra-ui/react";
 import { AxiosResponse } from "axios";
 import { useRouter } from "next/router";
+import { refreshToken } from "../utils/refreshToken";
 import { request } from "../utils/request";
 
 const isAuth = async () => {
@@ -12,19 +13,7 @@ const isAuth = async () => {
   });
 
   if (request.accessTokenExpired()) {
-    await request
-      .sendRequest({
-        method: "POST",
-        url: process.env.NEXT_PUBLIC_API_URL + "/auth/refresh_token",
-        data: {},
-      })
-      .then((response: AxiosResponse) => {
-        request.setAccessToken(response.data.accessToken);
-      })
-      .catch((err) => {
-        toast({ status: "error", description: err.response.data.message });
-        router.push(`/login?next=${router.pathname}`);
-      });
+    await refreshToken();
   }
 
   await request
@@ -39,8 +28,9 @@ const isAuth = async () => {
       }
     })
     .catch((err) => {
-      console.log(err);
-      toast({ status: "error", description: err.response.data.message });
+      if (err.response?.data?.message) {
+        toast({ status: "error", description: err.response.data.message });
+      }
       router.push(`/login?next=${router.pathname}`);
     });
 };
