@@ -1,16 +1,16 @@
+import argon2 from "argon2";
+import { Request, Response } from "express";
 import { verify } from "jsonwebtoken";
+import { getConnection } from "typeorm";
+import User from "../entities/User";
+import { loginSchema } from "./../schemas/loginSchema";
+import { registerSchema } from "./../schemas/registerSchema";
+import { formatJoiError } from "./../utils/formatJoiError";
 import {
   generateAccessToken,
-  sendRefreshToken,
   generateRefreshToken,
+  sendRefreshToken,
 } from "./../utils/generateToken";
-import { loginSchema } from "./../schemas/loginSchema";
-import { formatJoiError } from "./../utils/formatJoiError";
-import argon2 from "argon2";
-import { User } from "../entities/User";
-import { registerSchema } from "./../schemas/registerSchema";
-import { Request, Response } from "express";
-import { getConnection } from "typeorm";
 
 const authController: any = {};
 

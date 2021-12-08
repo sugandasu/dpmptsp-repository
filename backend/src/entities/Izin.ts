@@ -13,7 +13,7 @@ export enum IzinTypes {
 }
 
 @Entity()
-export class Izin extends BaseEntity {
+class Izin extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
@@ -35,3 +35,5 @@ export class Izin extends BaseEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 }
+
+export default Izin;

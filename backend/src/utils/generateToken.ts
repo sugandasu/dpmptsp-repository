@@ -1,6 +1,6 @@
 import { Response } from "express";
 import jwt from "jsonwebtoken";
-import { User } from "../entities/User";
+import User from "../entities/User";
 
 export const generateAccessToken = (user: User) => {
   return jwt.sign({ userId: user.id }, process.env.TOKEN_SECRET, {

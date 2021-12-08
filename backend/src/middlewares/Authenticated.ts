@@ -1,11 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { verify } from "jsonwebtoken";
 
-export const authenticated = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+const authenticated = (req: Request, res: Response, next: NextFunction) => {
   const authorization = req.headers["authorization"];
 
   if (!authorization) {
@@ -26,3 +22,5 @@ export const authenticated = (
 
   return next();
 };
+
+export default authenticated;

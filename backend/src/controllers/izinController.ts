@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { getConnection, getRepository } from "typeorm";
-import { Izin } from "../entities/Izin";
+import Izin from "../entities/Izin";
 import { createIzinSchema, updateIzinSchema } from "./../schemas/izinSchema";
 import { formatJoiError } from "./../utils/formatJoiError";
 const izinController: any = {};

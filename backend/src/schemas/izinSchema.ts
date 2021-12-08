@@ -1,5 +1,5 @@
 import joi from "joi";
-import { Izin, IzinTypes } from "../entities/Izin";
+import Izin, { IzinTypes } from "../entities/Izin";
 import { enumToArray } from "../utils/enumToArray";
 
 export const createIzinSchema = joi.object({

@@ -14,7 +14,7 @@ export enum UserRoles {
 }
 
 @Entity()
-export class User extends BaseEntity {
+class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
@@ -52,3 +52,5 @@ export class User extends BaseEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 }
+
+export default User;

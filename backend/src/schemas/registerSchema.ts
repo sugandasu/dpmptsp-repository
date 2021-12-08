@@ -1,5 +1,5 @@
 import joi from "joi";
-import { User } from "../entities/User";
+import User from "../entities/User";
 
 export const registerSchema = joi.object({
   username: joi

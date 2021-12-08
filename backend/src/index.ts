@@ -5,10 +5,10 @@ import express from "express";
 import path from "path";
 import { createConnection } from "typeorm";
 import { __prod__ } from "./constants";
-import { Izin } from "./entities/Izin";
-import { User } from "./entities/User";
-import { authRoutes } from "./routes/authRoutes";
-import { izinRoutes } from "./routes/izinRoutes";
+import Izin from "./entities/Izin";
+import User from "./entities/User";
+import authRoutes from "./routes/authRoutes";
+import izinRoutes from "./routes/izinRoutes";
 
 const main = async () => {
   const conection = await createConnection({

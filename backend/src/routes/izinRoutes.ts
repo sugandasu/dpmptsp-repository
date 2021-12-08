@@ -1,14 +1,17 @@
 import express from "express";
-import izinController from "src/controllers/izinController";
+import izinController from "../controllers/izinController";
+import authenticated from "../middlewares/Authenticated";
 
-export const izinRoutes = express.Router();
+const izinRoutes = express.Router();
 
-izinRoutes.get("/", izinController.getAll);
+izinRoutes.get("/", authenticated, izinController.getAll);
 
-izinRoutes.post("/", izinController.create);
+izinRoutes.post("/", authenticated, izinController.create);
 
-izinRoutes.get("/:id", izinController.getById);
+izinRoutes.get("/:id", authenticated, izinController.getById);
 
-izinRoutes.put("/:id", izinController.update);
+izinRoutes.put("/:id", authenticated, izinController.update);
 
-izinRoutes.delete("/:id", izinController.delete);
+izinRoutes.delete("/:id", authenticated, izinController.delete);
+
+export default izinRoutes;
