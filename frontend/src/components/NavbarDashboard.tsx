@@ -1,16 +1,18 @@
 import {
+  Avatar,
   Box,
   Flex,
   IconButton,
-  Spacer,
+  Link,
   Menu,
   MenuButton,
-  Avatar,
-  MenuList,
   MenuItem,
+  MenuList,
+  Spacer,
 } from "@chakra-ui/react";
 import { AxiosResponse } from "axios";
-import router, { useRouter } from "next/router";
+import NextLink from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
 import { FaBars } from "react-icons/fa";
 import { request } from "../utils/request";
@@ -54,7 +56,11 @@ export const NavbarDashboard: React.FC<NavbarDashboardProps> = ({
             icon={<Avatar size="sm" />}
           ></MenuButton>
           <MenuList>
-            <MenuItem>Profile</MenuItem>
+            <NextLink href="/dashboard/profile">
+              <Link>
+                <MenuItem>Profile</MenuItem>
+              </Link>
+            </NextLink>
             <MenuItem
               onClick={() => {
                 request
