@@ -16,6 +16,6 @@ export const refreshToken = async () => {
     })
     .catch((err) => {
       console.log(err);
-      router.push("/login");
+      router.push(`/login?next${router.pathname}`);
     });
 };
