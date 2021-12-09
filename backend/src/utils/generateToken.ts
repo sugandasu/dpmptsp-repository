@@ -4,7 +4,7 @@ import User from "../entities/User";
 
 export const generateAccessToken = (user: User) => {
   return jwt.sign({ userId: user.id }, process.env.TOKEN_SECRET, {
-    expiresIn: "15s",
+    expiresIn: "15m",
   });
 };
 
