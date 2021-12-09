@@ -8,6 +8,7 @@ import { __prod__ } from "./constants";
 import Izin from "./entities/Izin";
 import User from "./entities/User";
 import authRoutes from "./routes/authRoutes";
+import bapendaRoutes from "./routes/bapendaRoutes";
 import izinRoutes from "./routes/izinRoutes";
 
 const main = async () => {
@@ -35,6 +36,7 @@ const main = async () => {
 
   app.use("/api/v1/izins", izinRoutes);
   app.use("/api/v1/auth", authRoutes);
+  app.use("/api/v1/bapenda", bapendaRoutes);
 
   app.listen(process.env.PORT, () => {
     console.log(`Backend is listening on ${process.env.BACKEND_URL}`);

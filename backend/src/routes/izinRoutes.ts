@@ -14,4 +14,6 @@ izinRoutes.put("/:id", authenticated, izinController.update);
 
 izinRoutes.delete("/:id", authenticated, izinController.delete);
 
+izinRoutes.get("/:id", authenticated, izinController.getById);
+
 export default izinRoutes;
