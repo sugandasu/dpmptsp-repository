@@ -21,6 +21,5 @@ export const generateRefreshToken = (user: User) => {
 export const sendRefreshToken = (res: Response, token: string) => {
   res.cookie(process.env.COOKIE_NAME, token, {
     httpOnly: true,
-    path: "/api/v1/auth/refresh_token",
   });
 };
