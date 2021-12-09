@@ -12,6 +12,20 @@ authRoutes.post("/logout", authenticated, authController.logout);
 
 authRoutes.get("/me", authenticated, authController.me);
 
-authRoutes.post("/refresh_token", authController.refreshToken);
+authRoutes.post("/refresh-token", authController.refreshToken);
+
+authRoutes.get("/api-token", authenticated, authController.getApiToken);
+
+authRoutes.post(
+  "/refresh-api-token",
+  authenticated,
+  authController.refreshApiToken
+);
+
+authRoutes.post(
+  "/revoke-api-token",
+  authenticated,
+  authController.revokeApiToken
+);
 
 export default authRoutes;
