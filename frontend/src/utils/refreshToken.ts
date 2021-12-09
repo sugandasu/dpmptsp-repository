@@ -1,7 +1,10 @@
 import { AxiosResponse } from "axios";
+import { useRouter } from "next/router";
 import { request } from "./request";
 
 export const refreshToken = async () => {
+  const router = useRouter();
+
   return await request
     .sendRequest({
       method: "POST",
@@ -11,5 +14,8 @@ export const refreshToken = async () => {
     .then((response: AxiosResponse) => {
       request.setAccessToken(response.data.accessToken);
     })
-    .catch((_) => {});
+    .catch((err) => {
+      console.log(err);
+      router.push("/login");
+    });
 };
