@@ -13,7 +13,7 @@ const isGuest = async () => {
   });
 
   if (request.accessTokenExpired()) {
-    await refreshToken();
+    refreshToken();
   }
 
   await request
