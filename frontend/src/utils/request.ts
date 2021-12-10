@@ -10,7 +10,7 @@ type sendRequestType = {
 };
 
 export const request = {
-  sendRequest: ({ method, url, data }: sendRequestType) => {
+  sendRequest: ({ method, url, data = {} }: sendRequestType) => {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await axios({
@@ -29,8 +29,8 @@ export const request = {
     });
   },
 
-  fetcher: ({ method, url, data = {} }: sendRequestType) => {
-    return axios({
+  fetcher: async ({ method, url, data = {} }: sendRequestType) => {
+    const response = await axios({
       method,
       url,
       data,
@@ -38,9 +38,8 @@ export const request = {
         Authorization: `Bearer ${accessToken}`,
       },
       withCredentials: true,
-    }).then((response) => {
-      return response.data;
     });
+    return response.data;
   },
 
   setAccessToken: (token: string) => {
