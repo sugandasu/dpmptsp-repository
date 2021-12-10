@@ -16,6 +16,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       });
     }
   }, []);
+
   return (
     <ChakraProvider resetCSS theme={theme}>
       {loading ? <LoadingFull /> : <Component {...pageProps} />}
