@@ -9,7 +9,7 @@ import {
 } from "typeorm";
 
 export enum UserRoles {
-  PEGAWAI = "pegawai",
+  DPMPTSP_OPERATOR = "dpmptsp-operator",
   API_CONSUMER_BAPENDA = "api-consumer-bapenda",
 }
 
@@ -32,7 +32,11 @@ class User extends BaseEntity {
   @Column()
   password!: string;
 
-  @Column({ type: "enum", enum: UserRoles, default: UserRoles.PEGAWAI })
+  @Column({
+    type: "enum",
+    enum: UserRoles,
+    default: UserRoles.DPMPTSP_OPERATOR,
+  })
   role!: UserRoles;
 
   @Column({
