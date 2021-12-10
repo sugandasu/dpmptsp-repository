@@ -1,18 +1,19 @@
 import { Box, Button, Flex, Link, Spinner, useToast } from "@chakra-ui/react";
 import axios from "axios";
 import { Form, Formik } from "formik";
-import { useRouter } from "next/router";
 import NextLink from "next/link";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { FaAsterisk, FaBuilding, FaCalendar, FaUser } from "react-icons/fa";
 import { Card } from "../../../../components/Card";
 import { FieldInput } from "../../../../components/FieldInput";
 import { FieldRadio } from "../../../../components/FieldRadio";
 import { LayoutDashboard } from "../../../../components/LayoutDashboard";
-import { useEffect, useState } from "react";
-import isAuth from "../../../../middlewares/isAuth";
+import isDpmptspOperator from "../../../../middlewares/isDpmptspOperator";
 
 const IzinEdit = () => {
-  isAuth();
+  isDpmptspOperator();
+
   const router = useRouter();
   const [izin, setIzin] = useState({
     number: "",

@@ -1,7 +1,6 @@
-import { Button, HStack, IconButton, Link, Spinner } from "@chakra-ui/react";
-import { AxiosResponse } from "axios";
+import { Button, HStack, IconButton, Link } from "@chakra-ui/react";
 import NextLink from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { Column } from "react-table";
 import useSWR from "swr";
@@ -9,11 +8,11 @@ import { Card } from "../../../components/Card";
 import { LayoutDashboard } from "../../../components/LayoutDashboard";
 import { LoadingCard } from "../../../components/LoadingCard";
 import { TableClient } from "../../../components/TableClient";
-import isAuth from "../../../middlewares/isAuth";
+import isDpmptspOperator from "../../../middlewares/isDpmptspOperator";
 import { request } from "../../../utils/request";
 
 const DashboardIzin = () => {
-  isAuth();
+  isDpmptspOperator();
 
   const { data, error } = useSWR(
     { method: "GET", url: process.env.NEXT_PUBLIC_API_URL + "/izins" },

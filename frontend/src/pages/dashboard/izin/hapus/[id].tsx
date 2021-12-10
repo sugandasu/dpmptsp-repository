@@ -14,10 +14,11 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Card } from "../../../../components/Card";
 import { LayoutDashboard } from "../../../../components/LayoutDashboard";
-import isAuth from "../../../../middlewares/isAuth";
+import isDpmptspOperator from "../../../../middlewares/isDpmptspOperator";
 
 const IzinDelete = () => {
-  isAuth();
+  isDpmptspOperator();
+
   const router = useRouter();
   const [izin, setIzin] = useState({
     number: "",
