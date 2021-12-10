@@ -23,15 +23,19 @@ const isAuth = async () => {
       data: {},
     })
     .then((response: AxiosResponse) => {
-      if (response && response.data.user) {
-        return;
+      if (response.status === 200) {
+        if (response && response.data.user) {
+          return;
+        }
+      } else {
+        if (response?.data?.message) {
+          toast({ status: "error", description: response.data.message });
+        }
+        router.push(`/login?next=${router.pathname}`);
       }
     })
     .catch((err) => {
-      if (err.response?.data?.message) {
-        toast({ status: "error", description: err.response.data.message });
-      }
-      router.push(`/login?next=${router.pathname}`);
+      console.log(err);
     });
 };
 

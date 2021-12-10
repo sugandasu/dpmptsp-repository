@@ -23,20 +23,22 @@ const isGuest = async () => {
       data: {},
     })
     .then((response: AxiosResponse) => {
-      if (response && response.data.user) {
-        toast({
-          status: "success",
-          description: `Selamat datang ${response.data.user.username}`,
-        });
-        if (typeof router.query.next === "string") {
-          router.replace(router.query.next);
-          return;
+      if (response.status === 200) {
+        if (response && response.data.user) {
+          toast({
+            status: "success",
+            description: `Selamat datang ${response.data.user.username}`,
+          });
+          if (typeof router.query.next === "string") {
+            router.replace(router.query.next);
+            return;
+          }
+          router.replace("/dashboard");
         }
-        router.replace("/dashboard");
       }
     })
-    .catch(() => {
-      return;
+    .catch((err) => {
+      console.log(err);
     });
 };
 

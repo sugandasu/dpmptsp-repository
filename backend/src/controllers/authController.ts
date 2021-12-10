@@ -17,11 +17,13 @@ authController.me = async (req: Request, res: Response) => {
   const user = await User.findOne({ id: req?.user?.userId });
   if (user) {
     return res.json({
+      status: 200,
       user: { username: user.username, role: user.role },
     });
   }
 
-  return res.status(401).json({
+  return res.json({
+    status: 401,
     message: "Unauthenticated",
   });
 };
@@ -67,14 +69,12 @@ authController.login = async (req: Request, res: Response) => {
     }
   }
 
-  return res
-    .status(422)
-    .json({
-      errors: {
-        username: "Username atau password salah",
-        password: "Username atau password salah",
-      },
-    });
+  return res.status(422).json({
+    errors: {
+      username: "Username atau password salah",
+      password: "Username atau password salah",
+    },
+  });
 };
 
 authController.logout = async (_: Request, res: Response) => {
@@ -88,7 +88,8 @@ authController.logout = async (_: Request, res: Response) => {
 authController.refreshToken = async (req: Request, res: Response) => {
   const token = req.cookies[process.env.COOKIE_NAME];
   if (!token) {
-    return res.status(401).json({
+    return res.json({
+      status: 401,
       message: "Unauthenticated",
     });
   }
@@ -97,27 +98,30 @@ authController.refreshToken = async (req: Request, res: Response) => {
   try {
     cookie = verify(token, process.env.REFRESH_TOKEN_SECRET);
   } catch (error) {
-    return res.status(401).json({
+    return res.json({
+      status: 401,
       message: "Unauthenticated",
     });
   }
 
   const user = await User.findOne({ id: cookie.userId });
   if (!user) {
-    return res.status(401).json({
+    return res.json({
+      status: 401,
       message: "Unauthenticated",
     });
   }
 
   if (user.tokenVersion !== cookie.tokenVersion) {
-    return res.status(401).json({
+    return res.json({
+      status: 401,
       message: "Unauthenticated",
     });
   }
 
   sendRefreshToken(res, generateRefreshToken(user));
 
-  return res.send({ accessToken: generateAccessToken(user) });
+  return res.send({ status: 200, accessToken: generateAccessToken(user) });
 };
 
 export default authController;

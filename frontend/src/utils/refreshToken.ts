@@ -9,7 +9,11 @@ export const refreshToken = async () => {
       data: {},
     })
     .then((response: AxiosResponse) => {
-      request.setAccessToken(response.data.accessToken);
+      if (response.data.status === 200) {
+        request.setAccessToken(response.data.accessToken);
+      } else {
+        request.setAccessToken("");
+      }
     })
     .catch((err) => {
       console.log(err);

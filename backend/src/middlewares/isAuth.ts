@@ -5,7 +5,8 @@ const isAuth = (req: Request, res: Response, next: NextFunction) => {
   const authorization = req.headers.authorization;
 
   if (!authorization) {
-    return res.status(401).json({
+    return res.json({
+      status: 401,
       message: "Unauthenticated",
     });
   }
@@ -15,7 +16,8 @@ const isAuth = (req: Request, res: Response, next: NextFunction) => {
     const payload = verify(token, process.env.TOKEN_SECRET);
     req.user = payload as any;
   } catch (err) {
-    return res.status(401).json({
+    return res.json({
+      status: 401,
       message: "Unauthenticated",
     });
   }
