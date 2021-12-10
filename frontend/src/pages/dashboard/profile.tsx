@@ -1,8 +1,18 @@
-import { Box, Button, Textarea, useToast } from "@chakra-ui/react";
-import axios, { AxiosResponse } from "axios";
+import {
+  Box,
+  Button,
+  Flex,
+  HStack,
+  IconButton,
+  Input,
+  Tooltip,
+  useClipboard,
+  useToast,
+} from "@chakra-ui/react";
+import { AxiosResponse } from "axios";
 import { Form, Formik } from "formik";
 import { useEffect, useState } from "react";
-import { FaEnvelope, FaUser } from "react-icons/fa";
+import { FaCopy, FaEnvelope, FaUser } from "react-icons/fa";
 import { Card } from "../../components/Card";
 import { FieldInput } from "../../components/FieldInput";
 import { FieldPassword } from "../../components/FieldPassword";
@@ -24,6 +34,7 @@ const DashboardProfile = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [apiToken, setApiToken] = useState("");
+  const { hasCopied, onCopy } = useClipboard(apiToken);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -126,9 +137,88 @@ const DashboardProfile = () => {
           </Formik>
         </Box>
       </Card>
-      <Card title="API">
+      <Card title="API Token">
         <Box>
-          <Textarea defaultValue={apiToken} disabled></Textarea>
+          <HStack my={5}>
+            <Input value={apiToken} disabled></Input>
+            <Tooltip label="Salin Token">
+              <IconButton
+                aria-label="Salin Token"
+                icon={<FaCopy />}
+                color={hasCopied ? "green.500" : "gray.500"}
+                onClick={() => {
+                  onCopy();
+                  toast({
+                    status: "success",
+                    description: "API token berhasil di salin",
+                  });
+                }}
+              ></IconButton>
+            </Tooltip>
+          </HStack>
+          <Flex justify="right">
+            <HStack spacing={1}>
+              <Button
+                colorScheme="red"
+                onClick={() => {
+                  request
+                    .sendRequest({
+                      method: "POST",
+                      url:
+                        process.env.NEXT_PUBLIC_API_URL +
+                        "/profile/revoke-api-token",
+                    })
+                    .then((response: AxiosResponse) => {
+                      toast({
+                        status: "success",
+                        description: response.data.message,
+                      });
+                      setApiToken(response.data.apiToken);
+                    })
+                    .catch((err) => {
+                      if (err.response?.data?.message) {
+                        toast({
+                          status: "error",
+                          description: err.response.data.message,
+                        });
+                        return;
+                      }
+                    });
+                }}
+              >
+                Revoke Api Token
+              </Button>
+              <Button
+                onClick={() => {
+                  request
+                    .sendRequest({
+                      method: "POST",
+                      url:
+                        process.env.NEXT_PUBLIC_API_URL +
+                        "/profile/refresh-api-token",
+                    })
+                    .then((response: AxiosResponse) => {
+                      toast({
+                        status: "success",
+                        description: response.data.message,
+                      });
+                      setApiToken(response.data.apiToken);
+                    })
+                    .catch((err) => {
+                      if (err.response?.data?.message) {
+                        toast({
+                          status: "error",
+                          description: err.response.data.message,
+                        });
+                        return;
+                      }
+                    });
+                }}
+              >
+                Refresh Api Token
+              </Button>
+            </HStack>
+          </Flex>
         </Box>
       </Card>
     </LayoutDashboard>

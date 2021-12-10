@@ -104,18 +104,19 @@ profileController.getApiToken = async (req: Request, res: Response) => {
 profileController.refreshApiToken = async (req: Request, res: Response) => {
   const user = await User.findOne({ id: req?.user?.userId });
   if (user) {
-    const token = generateAccessToken(user);
+    const apiToken = generateAccessToken(user);
     await getConnection()
       .createQueryBuilder()
       .update(User)
-      .set({ apiToken: token })
+      .set({ apiToken })
       .where("id = :id", {
         id: user.id,
       })
       .execute();
 
     return res.json({
-      apiToken: token,
+      message: "Api token berhasil diperbarui",
+      apiToken: apiToken,
     });
   }
 
@@ -137,7 +138,8 @@ profileController.revokeApiToken = async (req: Request, res: Response) => {
       .execute();
 
     return res.json({
-      token: null,
+      message: "Api token berhasil dicabut",
+      apiToken: "",
     });
   }
 
