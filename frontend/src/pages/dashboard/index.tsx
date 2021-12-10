@@ -13,7 +13,7 @@ const DashboardIndex = () => {
       ]}
     >
       <Card title="Dashboard">
-        <Text>Dashboard masih kosong</Text>
+        <Text>Selamat datang</Text>
       </Card>
     </LayoutDashboard>
   );
