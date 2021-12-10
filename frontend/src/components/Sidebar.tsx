@@ -4,9 +4,10 @@ import {
   DrawerContent,
   DrawerHeader,
   DrawerOverlay,
+  Skeleton,
 } from "@chakra-ui/react";
 import { IconType } from "react-icons";
-import { FaHome, FaListAlt } from "react-icons/fa";
+import { useUser } from "../utils/useUser";
 import { SidebarMenu } from "./SidebarMenu";
 import { SidebarMenuLevel } from "./SidebarMenuLevel";
 
@@ -15,6 +16,7 @@ export type MenuType = {
   text: string;
   color: string;
   icon: IconType;
+  roles?: string[];
   children?: MenuType[];
 };
 
@@ -27,10 +29,11 @@ type SidebarProps = {
 
 export const Sidebar: React.FC<SidebarProps> = ({
   menuIsOpen,
-  setMenuIsOpen,
   setMenuIsClose,
   menus = [],
 }) => {
+  const { user, isLoading, isError } = useUser();
+
   return (
     <Drawer isOpen={menuIsOpen} placement="left" onClose={setMenuIsClose}>
       <DrawerOverlay />
@@ -38,6 +41,20 @@ export const Sidebar: React.FC<SidebarProps> = ({
         <DrawerHeader>Menu</DrawerHeader>
         <DrawerBody p={0}>
           {menus.map((menu) => {
+            if (isLoading) {
+              return (
+                <Skeleton key={menu.text}>
+                  <SidebarMenu key={menu.text} {...menu} />
+                </Skeleton>
+              );
+            }
+
+            if (menu.roles) {
+              if (menu.roles.indexOf(user.role) === -1) {
+                return;
+              }
+            }
+
             return menu?.children ? (
               <SidebarMenuLevel
                 key={menu.text}

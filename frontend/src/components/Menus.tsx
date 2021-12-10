@@ -12,6 +12,7 @@ export const menus: MenuType[] = [
     link: "/dashboard/izin",
     text: "Izin",
     color: "red.500",
+    roles: ["admin", "dpmptsp-operator"],
     icon: FaListAlt,
   },
 ];
