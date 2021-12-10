@@ -10,7 +10,7 @@ import {
 
 export enum UserRoles {
   PEGAWAI = "pegawai",
-  API_CONSUMER = "api-consumer",
+  API_CONSUMER_BAPENDA = "api-consumer-bapenda",
 }
 
 @Entity()
