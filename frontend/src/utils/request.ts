@@ -6,11 +6,11 @@ let accessToken: string = "";
 type sendRequestType = {
   method: Method;
   url: string;
-  data: any;
+  data?: any;
 };
 
 export const request = {
-  sendRequest: ({ method, url, data }: sendRequestType) => {
+  sendRequest: ({ method, url, data = {} }: sendRequestType) => {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await axios({
