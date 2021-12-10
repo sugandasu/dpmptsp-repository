@@ -25,7 +25,7 @@ const isGuest = async () => {
     .then((response: AxiosResponse) => {
       if (response && response.data.user) {
         toast({
-          status: "info",
+          status: "success",
           description: `Selamat datang ${response.data.user.username}`,
         });
         if (typeof router.query.next === "string") {
