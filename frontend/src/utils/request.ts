@@ -6,11 +6,11 @@ let accessToken: string = "";
 type sendRequestType = {
   method: Method;
   url: string;
-  data?: any;
+  data: any;
 };
 
 export const request = {
-  sendRequest: ({ method, url, data = {} }: sendRequestType) => {
+  sendRequest: ({ method, url, data }: sendRequestType) => {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await axios({
@@ -29,12 +29,30 @@ export const request = {
     });
   },
 
+  fetcher: ({ method, url, data = {} }: sendRequestType) => {
+    return axios({
+      method,
+      url,
+      data,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      withCredentials: true,
+    }).then((response) => {
+      return response.data;
+    });
+  },
+
   setAccessToken: (token: string) => {
     accessToken = token;
   },
 
   accessTokenExpired: (): boolean => {
     try {
+      if (!accessToken) {
+        return true;
+      }
+
       const decode: any = jwtDecode(accessToken);
       if (Date.now() >= decode.exp * 1000) {
         return true;

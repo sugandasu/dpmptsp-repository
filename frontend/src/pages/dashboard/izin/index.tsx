@@ -1,16 +1,25 @@
-import { Button, HStack, IconButton, Link } from "@chakra-ui/react";
-import axios from "axios";
+import { Button, HStack, IconButton, Link, Spinner } from "@chakra-ui/react";
+import { AxiosResponse } from "axios";
 import NextLink from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { Column } from "react-table";
+import useSWR from "swr";
 import { Card } from "../../../components/Card";
 import { LayoutDashboard } from "../../../components/LayoutDashboard";
+import { LoadingCard } from "../../../components/LoadingCard";
 import { TableClient } from "../../../components/TableClient";
 import isAuth from "../../../middlewares/isAuth";
+import { request } from "../../../utils/request";
 
 const DashboardIzin = () => {
   isAuth();
+
+  const { data, error } = useSWR(
+    { method: "GET", url: process.env.NEXT_PUBLIC_API_URL + "/izins" },
+    request.fetcher
+  );
+
   const columns = useMemo<
     Column<{
       id: string;
@@ -75,18 +84,6 @@ const DashboardIzin = () => {
     []
   );
 
-  const [data, setData] = useState([]);
-  useEffect(() => {
-    axios
-      .get(process.env.NEXT_PUBLIC_API_URL + "/izins")
-      .then((res) => {
-        setData(res.data.izins);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-
   return (
     <LayoutDashboard
       title="Izin"
@@ -107,12 +104,16 @@ const DashboardIzin = () => {
           </NextLink>
         }
       >
-        <TableClient
-          columns={columns}
-          data={data}
-          tableCaption="Izin yang ada di DPMPTSP Sulawesi Tengah"
-          sortBy={[{ id: "number", desc: false }]}
-        ></TableClient>
+        {data?.izins && !error ? (
+          <TableClient
+            columns={columns}
+            data={data.izins}
+            tableCaption="Izin yang ada di DPMPTSP Sulawesi Tengah"
+            sortBy={[{ id: "number", desc: false }]}
+          ></TableClient>
+        ) : (
+          <LoadingCard></LoadingCard>
+        )}
       </Card>
     </LayoutDashboard>
   );

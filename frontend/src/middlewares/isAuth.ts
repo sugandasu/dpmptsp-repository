@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { refreshToken } from "../utils/refreshToken";
 import { request } from "../utils/request";
 
-const isAuth = async () => {
+const isAuth = () => {
   const router = useRouter();
   const toast = useToast({
     title: "Authentication",
@@ -13,10 +13,10 @@ const isAuth = async () => {
   });
 
   if (request.accessTokenExpired()) {
-    await refreshToken();
+    refreshToken();
   }
 
-  await request
+  request
     .sendRequest({
       method: "GET",
       url: process.env.NEXT_PUBLIC_API_URL + "/auth/me",
