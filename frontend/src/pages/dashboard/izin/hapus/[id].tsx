@@ -7,7 +7,7 @@ import {
   Text,
   useToast,
 } from "@chakra-ui/react";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { Form, Formik } from "formik";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import { Card } from "../../../../components/Card";
 import { LayoutDashboard } from "../../../../components/LayoutDashboard";
 import isDpmptspOperator from "../../../../middlewares/isDpmptspOperator";
+import { request } from "../../../../utils/request";
 
 const IzinDelete = () => {
   isDpmptspOperator();
@@ -33,19 +34,24 @@ const IzinDelete = () => {
     }
 
     const fetchIzin = async () => {
-      await axios
-        .get(process.env.NEXT_PUBLIC_API_URL + `/izins/${router.query.id}`)
-        .then((response) => {
+      request
+        .sendRequest({
+          method: "GET",
+          url: process.env.NEXT_PUBLIC_API_URL + `/izins/${router.query.id}`,
+          data: {},
+        })
+        .then((response: AxiosResponse) => {
           setIzin(response.data.izin);
         })
-        .catch((err) => {
-          if (err.response.data.errors?.all) {
+        .catch((error) => {
+          if (error.response.data.message) {
             toast({
               status: "error",
-              description: err.response.data.errors.all,
+              description: error.response.data.message,
             });
-            router.push("/dashboard/izin");
           }
+          console.log(error);
+          router.push("/dashboard/izin");
         });
     };
     fetchIzin();
@@ -97,27 +103,26 @@ const IzinDelete = () => {
             <Formik
               initialValues={{ ...izin }}
               onSubmit={(_, { setErrors, setSubmitting }) => {
-                axios
-                  .delete(
-                    process.env.NEXT_PUBLIC_API_URL +
-                      `/izins/${router.query.id}`
-                  )
-                  .then((response) => {
+                request
+                  .sendRequest({
+                    method: "DELETE",
+                    url:
+                      process.env.NEXT_PUBLIC_API_URL +
+                      `/izins/${router.query.id}`,
+                    data: {},
+                  })
+                  .then((response: AxiosResponse) => {
                     toast({
                       status: "success",
                       description: response.data.message,
                     });
                     router.push("/dashboard/izin");
                   })
-                  .catch((err) => {
-                    if (err.response.data.errors?.all) {
-                      toast({
-                        status: "error",
-                        description: err.response.data.errors.all,
-                      });
-                      return;
+                  .catch((error) => {
+                    if (error.response.data.errors) {
+                      setErrors(error.response.data.errors);
                     }
-                    setErrors(err.response.data.errors);
+                    console.log(error);
                   })
                   .finally(() => {
                     setSubmitting(false);

@@ -1,14 +1,15 @@
 import { Box, Button, Link, useToast } from "@chakra-ui/react";
-import axios from "axios";
+import { AxiosResponse } from "axios";
 import { Form, Formik } from "formik";
-import { useRouter } from "next/router";
 import NextLink from "next/link";
+import { useRouter } from "next/router";
 import { FaAsterisk, FaBuilding, FaCalendar, FaUser } from "react-icons/fa";
 import { Card } from "../../../components/Card";
 import { FieldInput } from "../../../components/FieldInput";
 import { FieldRadio } from "../../../components/FieldRadio";
 import { LayoutDashboard } from "../../../components/LayoutDashboard";
 import isDpmptspOperator from "../../../middlewares/isDpmptspOperator";
+import { request } from "../../../utils/request";
 
 const IzinCreate = () => {
   isDpmptspOperator();
@@ -54,24 +55,24 @@ const IzinCreate = () => {
               effective_date: "",
             }}
             onSubmit={(values, { setErrors, setSubmitting }) => {
-              axios
-                .post(process.env.NEXT_PUBLIC_API_URL + "/izins", values)
-                .then((response) => {
+              request
+                .sendRequest({
+                  method: "POST",
+                  url: process.env.NEXT_PUBLIC_API_URL + "/izins",
+                  data: values,
+                })
+                .then((response: AxiosResponse) => {
                   toast({
                     status: "success",
                     description: response.data.message,
                   });
                   router.push("/dashboard/izin");
                 })
-                .catch((err) => {
-                  if (err.response.data.errors?.all) {
-                    toast({
-                      status: "error",
-                      description: err.response.data.errors.all,
-                    });
-                    return;
+                .catch((error) => {
+                  if (error.response.data.errors) {
+                    setErrors(error.response.data.errors);
                   }
-                  setErrors(err.response.data.errors);
+                  console.log(error);
                 })
                 .finally(() => {
                   setSubmitting(false);

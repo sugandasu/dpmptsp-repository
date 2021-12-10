@@ -21,7 +21,7 @@ izinController.create = async (req: Request, res: Response) => {
       name,
       effectiveDate: effective_date,
     }).save();
-    return res.json({
+    return res.status(201).json({
       izin: izin,
       message: "Pembuatan izin berhasil",
     });
@@ -45,7 +45,7 @@ izinController.getById = async (req: Request, res: Response) => {
     }
   }
   return res.status(422).json({
-    errors: { all: "Izin tidak ditemukan" },
+    message: "Izin tidak ditemukan",
   });
 };
 

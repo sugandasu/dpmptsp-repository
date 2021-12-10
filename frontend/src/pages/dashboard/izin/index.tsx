@@ -15,7 +15,11 @@ const DashboardIzin = () => {
   isDpmptspOperator();
 
   const { data, error } = useSWR(
-    { method: "GET", url: process.env.NEXT_PUBLIC_API_URL + "/izins" },
+    {
+      method: "GET",
+      url: process.env.NEXT_PUBLIC_API_URL + "/izins",
+      data: {},
+    },
     request.fetcher
   );
 
