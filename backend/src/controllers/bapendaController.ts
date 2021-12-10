@@ -9,33 +9,36 @@ type getIzinParameters = {
 };
 
 bapendaController.filter = async (req: Request, res: Response) => {
+  res.set("Access-Control-Allow-Origin", "*");
+
   try {
-    const { nomor_izin }: getIzinParameters = req.params;
+    const { nomor_izin }: getIzinParameters = req.query;
 
     const izins = await getConnection().query(
       `
         SELECT *
         FROM izin
-        WHERE number LIKE $1
-      `,
-      [`%${nomor_izin}%`]
+        WHERE number LIKE "%${nomor_izin}%"
+      `
     );
 
-    res.json(izins);
+    res.json({ status: 200, izins });
   } catch (error) {
-    res.status(400).json({ message: "Bad request" });
+    res.json({ status: 400, message: "Bad request" });
   }
 };
 
 bapendaController.find = async (req: Request, res: Response) => {
+  res.set("Access-Control-Allow-Origin", "*");
+
   try {
-    const { nomor_izin }: getIzinParameters = req.params;
+    const { nomor_izin }: getIzinParameters = req.query;
 
-    const izin = await Izin.find({ where: { number: nomor_izin } });
+    const izin = await Izin.findOne({ where: { number: nomor_izin } });
 
-    res.json(izin);
+    res.json({ status: 200, izin });
   } catch (error) {
-    res.status(400).json({ message: "Bad request" });
+    res.json({ status: 400, message: "Bad request" });
   }
 };
 

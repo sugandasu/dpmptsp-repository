@@ -1,10 +1,15 @@
 import express from "express";
+import isApiToken from "../middlewares/isApiToken";
 import bapendaController from "../controllers/bapendaController";
 
 const bapendaRoutes = express.Router();
 
-bapendaRoutes.get("izin/filter", bapendaController.filter);
+bapendaRoutes.get("/", isApiToken, (_, res) => {
+  res.send("Bapenda route");
+});
 
-bapendaRoutes.get("izin/find", bapendaController.find);
+bapendaRoutes.get("/izin/filter", isApiToken, bapendaController.filter);
+
+bapendaRoutes.get("/izin/find", isApiToken, bapendaController.find);
 
 export default bapendaRoutes;
