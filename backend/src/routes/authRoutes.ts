@@ -6,7 +6,7 @@ const authRoutes = express.Router();
 
 authRoutes.get("/me", isAuth, authController.me);
 
-authRoutes.post("/register", authController.register);
+// authRoutes.post("/register", authController.register);
 
 authRoutes.post("/login", authController.login);
 
