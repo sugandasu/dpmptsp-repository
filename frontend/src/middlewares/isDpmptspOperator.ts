@@ -24,7 +24,7 @@ const isDpmptspOperator = async () => {
     })
     .then((response: AxiosResponse) => {
       if (response.status === 200) {
-        if (response && response.data.user.role === "pegawai") {
+        if (response && response.data.user.role === "dpmptsp-operator") {
           return;
         }
       }
