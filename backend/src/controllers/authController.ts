@@ -69,7 +69,12 @@ authController.login = async (req: Request, res: Response) => {
 
   return res
     .status(422)
-    .json({ errors: { all: "Username atau password salah" } });
+    .json({
+      errors: {
+        username: "Username atau password salah",
+        password: "Username atau password salah",
+      },
+    });
 };
 
 authController.logout = async (_: Request, res: Response) => {

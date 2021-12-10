@@ -2,9 +2,7 @@ import { Box, Button, Flex, Heading, VStack } from "@chakra-ui/react";
 import { AxiosResponse } from "axios";
 import { Form, Formik } from "formik";
 import { useRouter } from "next/router";
-import { useState } from "react";
 import { FaUser } from "react-icons/fa";
-import { AlertAll } from "../components/AlertAll";
 import { FieldInput } from "../components/FieldInput";
 import { FieldPassword } from "../components/FieldPassword";
 import isGuest from "../middlewares/isGuest";
@@ -12,7 +10,7 @@ import { request } from "../utils/request";
 
 const Login = () => {
   isGuest();
-  const [errorAll, setErrorAll] = useState("");
+
   const router = useRouter();
   return (
     <Flex height="100vh" width="100%" align="center" justify="center">
@@ -41,9 +39,6 @@ const Login = () => {
                 .catch((err) => {
                   if (err.response.data && err.response.data.errors) {
                     setErrors(err.response.data.errors);
-                    if (err.response.data.errors?.message) {
-                      setErrorAll(err.response.data.message);
-                    }
                   }
                 })
                 .finally(() => {
@@ -53,13 +48,6 @@ const Login = () => {
           >
             {({ isSubmitting }) => (
               <Form>
-                {errorAll !== "" ? (
-                  <AlertAll
-                    status="error"
-                    message={errorAll}
-                    onClose={setErrorAll}
-                  />
-                ) : null}
                 <FieldInput
                   label="Username"
                   name="username"
