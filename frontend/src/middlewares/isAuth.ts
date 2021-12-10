@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { refreshToken } from "../utils/refreshToken";
 import { request } from "../utils/request";
 
-const isAuth = () => {
+const isAuth = async () => {
   const router = useRouter();
   const toast = useToast({
     title: "Authentication",
@@ -13,10 +13,10 @@ const isAuth = () => {
   });
 
   if (request.accessTokenExpired()) {
-    refreshToken();
+    await refreshToken();
   }
 
-  request
+  await request
     .sendRequest({
       method: "GET",
       url: process.env.NEXT_PUBLIC_API_URL + "/auth/me",
@@ -27,12 +27,11 @@ const isAuth = () => {
         if (response && response.data.user) {
           return;
         }
-      } else {
-        if (response?.data?.message) {
-          toast({ status: "error", description: response.data.message });
-        }
-        router.push(`/login?next=${router.pathname}`);
       }
+      if (response?.data?.message) {
+        toast({ status: "error", description: response.data.message });
+      }
+      router.push(`/login?next=${router.pathname}`);
     })
     .catch((err) => {
       console.log(err);
