@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import { verify } from "jsonwebtoken";
 
-const authenticated = (req: Request, res: Response, next: NextFunction) => {
-  const authorization = req.headers["authorization"];
+const isAuth = (req: Request, res: Response, next: NextFunction) => {
+  const authorization = req.headers.authorization;
 
   if (!authorization) {
     return res.status(401).json({
@@ -23,4 +23,4 @@ const authenticated = (req: Request, res: Response, next: NextFunction) => {
   return next();
 };
 
-export default authenticated;
+export default isAuth;

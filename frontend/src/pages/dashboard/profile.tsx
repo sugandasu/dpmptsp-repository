@@ -2,7 +2,7 @@ import { Box, Button, Textarea, useToast } from "@chakra-ui/react";
 import axios, { AxiosResponse } from "axios";
 import { Form, Formik } from "formik";
 import { useEffect, useState } from "react";
-import { FaUser } from "react-icons/fa";
+import { FaEnvelope, FaUser } from "react-icons/fa";
 import { Card } from "../../components/Card";
 import { FieldInput } from "../../components/FieldInput";
 import { FieldPassword } from "../../components/FieldPassword";
@@ -22,6 +22,7 @@ const DashboardProfile = () => {
 
   const [loading, setLoading] = useState(true);
   const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [apiToken, setApiToken] = useState("");
 
   useEffect(() => {
@@ -29,24 +30,13 @@ const DashboardProfile = () => {
       await request
         .sendRequest({
           method: "GET",
-          url: process.env.NEXT_PUBLIC_API_URL + "/auth/me",
+          url: process.env.NEXT_PUBLIC_API_URL + "/profile",
           data: {},
         })
         .then((response: AxiosResponse) => {
           setUsername(response.data.user.username);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-
-      await request
-        .sendRequest({
-          method: "GET",
-          url: process.env.NEXT_PUBLIC_API_URL + "/auth/api-token",
-          data: {},
-        })
-        .then((response: AxiosResponse) => {
-          setApiToken(response.data.apiToken);
+          setEmail(response.data.user.email);
+          setApiToken(response.data.user.apiToken);
         })
         .catch((err) => {
           console.log(err);
@@ -54,6 +44,7 @@ const DashboardProfile = () => {
 
       setLoading(false);
     };
+
     fetchProfile();
   }, []);
 
@@ -74,6 +65,7 @@ const DashboardProfile = () => {
           <Formik
             initialValues={{
               username,
+              email,
               old_password: "",
               new_password: "",
             }}
@@ -113,16 +105,14 @@ const DashboardProfile = () => {
                   required={true}
                   LeftIcon={FaUser}
                 />
-                <FieldPassword
-                  label="Password Lama"
-                  name="old_password"
-                  required={true}
+                <FieldInput
+                  label="Email"
+                  name="email"
+                  type="email"
+                  LeftIcon={FaEnvelope}
                 />
-                <FieldPassword
-                  label="Password Baru"
-                  name="new_password"
-                  required={true}
-                />
+                <FieldPassword label="Password Lama" name="old_password" />
+                <FieldPassword label="Password Baru" name="new_password" />
                 <Button
                   type="submit"
                   isLoading={isSubmitting}

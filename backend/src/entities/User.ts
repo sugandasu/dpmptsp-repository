@@ -36,12 +36,12 @@ class User extends BaseEntity {
   role!: UserRoles;
 
   @Column({
-    type: "varchar",
+    type: "text",
     unique: true,
     nullable: true,
     transformer: nullTransformer,
   })
-  token?: string | null;
+  apiToken?: string | null;
 
   @Column({ type: "int", default: 0 })
   tokenVersion: number;

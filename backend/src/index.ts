@@ -10,6 +10,7 @@ import User from "./entities/User";
 import authRoutes from "./routes/authRoutes";
 import bapendaRoutes from "./routes/bapendaRoutes";
 import izinRoutes from "./routes/izinRoutes";
+import profileRoutes from "./routes/profileRoutes";
 
 const main = async () => {
   const conection = await createConnection({
@@ -36,6 +37,7 @@ const main = async () => {
 
   app.use("/api/v1/izins", izinRoutes);
   app.use("/api/v1/auth", authRoutes);
+  app.use("/api/v1/profile", profileRoutes);
   app.use("/api/v1/bapenda", bapendaRoutes);
 
   app.listen(process.env.PORT, () => {

@@ -39,9 +39,11 @@ const Login = () => {
                   }
                 })
                 .catch((err) => {
-                  setErrors(err.response.data.errors);
-                  if (err.response.data.errors?.message) {
-                    setErrorAll(err.response.data.message);
+                  if (err.response.data && err.response.data.errors) {
+                    setErrors(err.response.data.errors);
+                    if (err.response.data.errors?.message) {
+                      setErrorAll(err.response.data.message);
+                    }
                   }
                 })
                 .finally(() => {
