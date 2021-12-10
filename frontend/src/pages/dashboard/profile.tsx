@@ -167,6 +167,7 @@ const DashboardProfile = () => {
                       url:
                         process.env.NEXT_PUBLIC_API_URL +
                         "/profile/revoke-api-token",
+                      data: {},
                     })
                     .then((response: AxiosResponse) => {
                       toast({
@@ -196,6 +197,7 @@ const DashboardProfile = () => {
                       url:
                         process.env.NEXT_PUBLIC_API_URL +
                         "/profile/refresh-api-token",
+                      data: {},
                     })
                     .then((response: AxiosResponse) => {
                       toast({
