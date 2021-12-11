@@ -11,6 +11,7 @@ import authRoutes from "./routes/authRoutes";
 import bapendaRoutes from "./routes/bapendaRoutes";
 import indexRoutes from "./routes/indexRoutes";
 import izinRoutes from "./routes/izinRoutes";
+import kendaraanRoutes from "./routes/kendaraanRoutes";
 import profileRoutes from "./routes/profileRoutes";
 
 const main = async () => {
@@ -36,8 +37,9 @@ const main = async () => {
     res.send("Hello world!");
   });
 
-  app.use("/api/v1/izins", izinRoutes);
   app.use("/api/v1/auth", authRoutes);
+  app.use("/api/v1/izins", izinRoutes);
+  app.use("/api/v1/kendaraans", kendaraanRoutes);
   app.use("/api/v1/profile", profileRoutes);
   app.use("/api/v1/bapenda", bapendaRoutes);
   app.use("/api/v1/index", indexRoutes);
