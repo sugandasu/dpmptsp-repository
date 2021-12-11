@@ -1,5 +1,6 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import { AppProps } from "next/app";
+import Head from "next/head";
 import { useEffect, useState } from "react";
 import { LoadingFull } from "../components/LoadingFull";
 import theme from "../theme";
@@ -19,6 +20,9 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <ChakraProvider resetCSS theme={theme}>
+      <Head>
+        <link rel="shortcut icon" href="/logo.ico" />
+      </Head>
       {loading ? <LoadingFull /> : <Component {...pageProps} />}
     </ChakraProvider>
   );
