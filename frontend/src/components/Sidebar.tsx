@@ -49,6 +49,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
               );
             }
 
+            if (!user?.role) {
+              return;
+            }
+
             if (menu.roles) {
               if (menu.roles.indexOf(user.role) === -1) {
                 return;
