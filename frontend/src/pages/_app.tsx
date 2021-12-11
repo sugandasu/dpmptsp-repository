@@ -22,6 +22,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <ChakraProvider resetCSS theme={theme}>
       <Head>
         <link rel="shortcut icon" href="/logo.ico" />
+        <title>DPMPTSP Sulawesi Tengah</title>
       </Head>
       {loading ? <LoadingFull /> : <Component {...pageProps} />}
     </ChakraProvider>
