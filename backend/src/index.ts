@@ -33,9 +33,12 @@ const main = async () => {
   }
 
   const app = express();
+  app.use(cors({ origin: process.env.DOMAIN_NAME, credentials: true }));
+  if (__prod__) {
+    app.set("trust proxy", 1);
+  }
   app.use(express.json());
   app.use(cookieParser());
-  app.use(cors({ origin: process.env.DOMAIN_NAME, credentials: true }));
 
   app.get("/", (_, res) => {
     res.send("Hello world!");
