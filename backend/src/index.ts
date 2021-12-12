@@ -1,6 +1,6 @@
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import "dotenv-safe/config";
+import * as dotenvsafe from "dotenv-safe";
 import express from "express";
 import path from "path";
 import { createConnection } from "typeorm";
@@ -13,6 +13,10 @@ import indexRoutes from "./routes/indexRoutes";
 import izinRoutes from "./routes/izinRoutes";
 import kendaraanRoutes from "./routes/kendaraanRoutes";
 import profileRoutes from "./routes/profileRoutes";
+
+dotenvsafe.config({
+  allowEmptyValues: true,
+});
 
 const main = async () => {
   const conection = await createConnection({
