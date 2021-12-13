@@ -22,7 +22,15 @@ bapendaController.filter = async (req: Request, res: Response) => {
       `
     );
 
-    res.json({ status: 200, izins });
+    if (izins.length > 0) {
+      res.json({ status: 200, izins });
+    }
+
+    res.json({
+      status: 404,
+      message: "Tidak ada izin yang ditemukan",
+      izins: [],
+    });
   } catch (error) {
     res.json({ status: 400, message: "Bad request" });
   }
@@ -33,10 +41,13 @@ bapendaController.find = async (req: Request, res: Response) => {
 
   try {
     const { nomor_izin }: getIzinParameters = req.query;
-
     const izin = await Izin.findOne({ where: { number: nomor_izin } });
 
-    res.json({ status: 200, izin });
+    if (izin) {
+      res.json({ status: 200, izin });
+    }
+
+    res.json({ status: 404, message: "Izin tidak ditemukan", izin: null });
   } catch (error) {
     res.json({ status: 400, message: "Bad request" });
   }
