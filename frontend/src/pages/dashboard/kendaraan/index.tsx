@@ -21,7 +21,7 @@ const Kendaraan = () => {
 
   return (
     <LayoutDashboard
-      title="Periksa Pajak KendaraanIzin"
+      title="Periksa Pajak Kendaraan Izin"
       breadcrumbs={[
         { text: "Dashboard", href: "/dashboard" },
         {
